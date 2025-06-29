@@ -1,3 +1,4 @@
+
 <?php
 $base_url = "/fueltracking/";
 ?>
@@ -11,175 +12,316 @@ $base_url = "/fueltracking/";
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #f97316;
-            --success-color: #059669;
-            --danger-color: #dc2626;
-            --warning-color: #d97706;
-            --info-color: #0284c7;
-            --dark-color: #374151;
-            --light-color: #f8fafc;
+            --primary-color: #667eea;
+            --secondary-color: #f093fb;
+            --success-color: #4ade80;
+            --danger-color: #f87171;
+            --warning-color: #fbbf24;
+            --info-color: #60a5fa;
+            --purple-color: #a855f7;
+            --teal-color: #14b8a6;
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
         }
         
         .navbar {
-            background: rgba(30, 58, 138, 0.95) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
         }
         
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.5rem;
-            color: white !important;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--purple-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .navbar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.9) !important;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            color: var(--primary-color) !important;
+            font-weight: 600;
             padding: 0.75rem 1rem !important;
+            border-radius: 10px;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
         }
         
         .navbar-nav .nav-link:hover {
-            color: var(--secondary-color) !important;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white !important;
+            transform: translateY(-2px);
         }
         
         .card {
             border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.95);
-            transition: all 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            margin-bottom: 1.5rem;
         }
         
         .card-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            background: linear-gradient(135deg, var(--primary-color), var(--purple-color));
             color: white;
-            border-radius: 15px 15px 0 0 !important;
+            border-radius: 20px 20px 0 0 !important;
             padding: 1.5rem;
+            border: none;
+        }
+        
+        .btn {
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            min-height: 50px;
+            transition: all 0.3s ease;
             border: none;
         }
         
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-color), var(--info-color));
-            border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
-        }
-        
-        .btn-warning {
-            background: linear-gradient(135deg, var(--secondary-color), var(--warning-color));
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
         
         .btn-success {
-            background: linear-gradient(135deg, var(--success-color), #10b981);
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
+            background: linear-gradient(135deg, var(--success-color), var(--teal-color));
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning-color), #f59e0b);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color), #ef4444);
         }
         
         .form-control, .form-select {
-            border-radius: 10px;
+            border-radius: 15px;
             border: 2px solid #e5e7eb;
-            padding: 0.75rem;
+            padding: 1rem;
+            font-size: 1.1rem;
+            min-height: 50px;
             transition: all 0.3s ease;
         }
         
         .form-control:focus, .form-select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
         }
         
         .status-badge {
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 25px;
-            font-weight: 600;
-            font-size: 0.875rem;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-block;
+            min-width: 150px;
+            text-align: center;
         }
         
-        .status-waiting_pengawas { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: white; }
-        .status-waiting_driver { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
-        .status-waiting_depo { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
-        .status-waiting_fuelman { background: linear-gradient(135deg, #f97316, #ea580c); color: white; }
-        .status-done { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .status-waiting_pengawas { 
+            background: linear-gradient(135deg, var(--warning-color), #f59e0b); 
+            color: white; 
+        }
+        .status-waiting_driver { 
+            background: linear-gradient(135deg, var(--info-color), #3b82f6); 
+            color: white; 
+        }
+        .status-waiting_depo { 
+            background: linear-gradient(135deg, var(--purple-color), #9333ea); 
+            color: white; 
+        }
+        .status-waiting_fuelman { 
+            background: linear-gradient(135deg, #f97316, #ea580c); 
+            color: white; 
+        }
+        .status-done { 
+            background: linear-gradient(135deg, var(--success-color), var(--teal-color)); 
+            color: white; 
+        }
         
         .photo-preview {
-            max-width: 200px;
+            max-width: 100%;
             max-height: 200px;
             object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 0.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin: 0.75rem 0;
         }
         
-        .loading-spinner {
-            display: none;
-        }
-        
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .main-container {
+            padding: 2rem 1rem;
+            min-height: calc(100vh - 80px);
         }
         
         .stats-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
             backdrop-filter: blur(10px);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
         
         .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
         
         .stats-number {
             font-size: 3rem;
             font-weight: 700;
             margin: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            background: linear-gradient(135deg, var(--primary-color), var(--purple-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .main-container {
-            padding: 2rem 0;
-            min-height: calc(100vh - 76px);
+        .alert {
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: none;
+            font-size: 1.1rem;
+        }
+        
+        .table {
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--purple-color));
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+        }
+        
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 768px) {
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .form-control, .form-select {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .card-body {
+                padding: 1.5rem;
+            }
+            
+            .stats-number {
+                font-size: 2rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1rem;
+            }
+            
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+            
+            .photo-preview {
+                max-height: 150px;
+            }
+        }
+        
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .progress-step::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            right: -50%;
+            height: 3px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+        
+        .progress-step:last-child::before {
+            display: none;
+        }
+        
+        .progress-step.active::before {
+            background: var(--success-color);
+        }
+        
+        .progress-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            position: relative;
+            z-index: 2;
+            font-weight: 600;
+        }
+        
+        .progress-step.active .progress-circle {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .progress-step.current .progress-circle {
+            background: var(--primary-color);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="/fueltracking">
                 <i class="bi bi-fuel-pump"></i> Fuel Transport Tracking
@@ -247,4 +389,4 @@ $base_url = "/fueltracking/";
     </nav>
     
     <div class="main-container">
-        <div class="container">
+        <div class="container-fluid">

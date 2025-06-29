@@ -1,4 +1,3 @@
-
 -- Database Schema for Fuel Transport Tracking System
 CREATE DATABASE fuel_tracking;
 USE fuel_tracking;
@@ -112,6 +111,9 @@ CREATE TABLE fuel_logs (
     FOREIGN KEY (pd_created_by) REFERENCES users(id),
     FOREIGN KEY (fm_created_by) REFERENCES users(id)
 );
+
+-- Add new column for 7-hour validation reason
+ALTER TABLE fuel_logs ADD COLUMN pd_alasan_lebih_7jam TEXT AFTER pd_goto_msf;
 
 -- Insert default admin user (password: admin123)
 INSERT INTO users (username, password, role, full_name, email) VALUES 
