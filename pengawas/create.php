@@ -1,4 +1,3 @@
-
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -11,42 +10,66 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pt_unit_number = trim($_POST['pt_unit_number'] ?? '');
-    $pt_driver_name = trim($_POST['pt_driver_name'] ?? '');
-    
-    if (empty($pt_unit_number) || empty($pt_driver_name)) {
-        $error = 'Nomor unit dan nama driver harus diisi';
+    $pt_driver_id = trim($_POST['pt_driver_id'] ?? '');
+
+    if (empty($pt_unit_number) || empty($pt_driver_id)) {
+        $error = 'Nomor unit dan driver harus diisi';
     } else {
-        try {
-            $stmt = $pdo->prepare("
-                INSERT INTO fuel_logs (
-                    nomor_unit, driver_name, status_progress,
-                    pt_unit_number, pt_driver_name, pt_created_by, pt_created_at
-                ) VALUES (?, ?, 'waiting_pengawas', ?, ?, ?, NOW())
-            ");
-            
-            $stmt->execute([
-                $pt_unit_number,
-                $pt_driver_name,
-                $pt_unit_number,
-                $pt_driver_name,
-                $_SESSION['user_id']
-            ]);
-            
-            $logId = $pdo->lastInsertId();
-            $success = "Pengiriman berhasil dibuat dengan ID #$logId";
-            
-            // Reset form
-            $_POST = [];
-            
-        } catch(PDOException $e) {
-            $error = "Error creating log: " . $e->getMessage();
+        // Ambil nama driver dari id
+        $stmt = $pdo->prepare("SELECT full_name FROM users WHERE id = ? AND role = 'driver' LIMIT 1");
+        $stmt->execute([$pt_driver_id]);
+        $driver = $stmt->fetch();
+        $pt_driver_name = $driver ? $driver['full_name'] : '';
+
+        if (!$pt_driver_name) {
+            $error = 'Driver tidak ditemukan';
+        } else {
+            try {
+                // $stmt = $pdo->prepare("
+                //     INSERT INTO fuel_logs (
+                //         nomor_unit, driver_name, status_progress,
+                //         pt_unit_number, pt_driver_name, pt_created_by, pt_created_at
+                //     ) VALUES (?, ?, 'waiting_pengawas', ?, ?, ?, NOW())
+                // ");
+                $stmt = $pdo->prepare("
+                    INSERT INTO fuel_logs (
+                        nomor_unit, driver_name, status_progress,
+                        pt_unit_number, pt_driver_name, pt_driver_id, pt_created_by, pt_created_at
+                    ) VALUES (?, ?, 'waiting_pengawas', ?, ?, ?, ?, NOW())
+                ");
+
+                $stmt->execute([
+                    $pt_unit_number,      // nomor_unit
+                    $pt_driver_name,      // driver_name
+                    $pt_unit_number,      // pt_unit_number
+                    $pt_driver_name,      // pt_driver_name
+                    $pt_driver_id,        // pt_driver_id
+                    $_SESSION['user_id']  // pt_created_by
+                ]);
+
+                $logId = $pdo->lastInsertId();
+                $success = "Pengiriman berhasil dibuat dengan ID #$logId";
+                $_POST = [];
+            } catch(PDOException $e) {
+                $error = "Error creating log: " . $e->getMessage();
+            }
         }
     }
 }
 
-require_once '../includes/header.php';
-?>
+// Ambil daftar driver dari tabel user
+try {
+    $stmtDrivers = $pdo->prepare("SELECT id, full_name FROM users WHERE role = 'driver' AND is_active = 1 ORDER BY full_name ASC");
+    $stmtDrivers->execute();
+    $drivers = $stmtDrivers->fetchAll();
+} catch(PDOException $e) {
+    $drivers = [];
+}
 
+require_once '../includes/header.php'; ?>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
@@ -82,12 +105,18 @@ require_once '../includes/header.php';
                         </div>
                         
                         <div class="col-md-6 mb-3">
-                            <label for="pt_driver_name" class="form-label">
+                            <label for="pt_driver_id" class="form-label">
                                 <i class="bi bi-person"></i> Nama Driver *
                             </label>
-                            <input type="text" class="form-control" id="pt_driver_name" name="pt_driver_name" 
-                                   value="<?php echo htmlspecialchars($_POST['pt_driver_name'] ?? ''); ?>" 
-                                   placeholder="Nama lengkap driver" required>
+                            <select class="form-control" id="pt_driver_id" name="pt_driver_id" required>
+                                <option value="">-- Pilih Driver --</option>
+                                <?php foreach ($drivers as $driver): ?>
+                                    <option value="<?= $driver['id'] ?>"
+                                        <?= (($_POST['pt_driver_id'] ?? '') == $driver['id']) ? 'selected' : '' ?>>
+                                        <?= $driver['id'] . ' - ' . htmlspecialchars($driver['full_name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
                     
@@ -169,6 +198,17 @@ require_once '../includes/header.php';
         </div>
     </div>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    $('#pt_driver_id').select2({
+        placeholder: "-- Pilih Driver --",
+        allowClear: true,
+        width: '100%'
+    });
+});
+</script>
 
 <script>
 document.getElementById('createForm').addEventListener('submit', function(e) {

@@ -20,16 +20,39 @@ try {
     $completedLogs = $pdo->query("SELECT COUNT(*) FROM fuel_logs WHERE status_progress = 'done'")->fetchColumn();
     $todayLogs = $pdo->query("SELECT COUNT(*) FROM fuel_logs WHERE DATE(created_at) = CURDATE()")->fetchColumn();
     
-    // Get recent logs
+    // // Get recent logs
+    // $stmt = $pdo->prepare("
+    //     SELECT fl.*, u.full_name as creator_name 
+    //     FROM fuel_logs fl 
+    //     LEFT JOIN users u ON fl.pt_created_by = u.id 
+    //     ORDER BY fl.created_at DESC 
+    //     LIMIT 5
+    // ");
+    // $stmt->execute();
+    // $recentLogs = $stmt->fetchAll();
+
+    if ($_SESSION['role'] === 'driver') {
     $stmt = $pdo->prepare("
         SELECT fl.*, u.full_name as creator_name 
         FROM fuel_logs fl 
         LEFT JOIN users u ON fl.pt_created_by = u.id 
+        WHERE fl.pt_driver_id = ? 
         ORDER BY fl.created_at DESC 
         LIMIT 5
     ");
-    $stmt->execute();
+    $stmt->execute([$_SESSION['user_id']]);
+    } else {
+        $stmt = $pdo->prepare("
+            SELECT fl.*, u.full_name as creator_name 
+            FROM fuel_logs fl 
+            LEFT JOIN users u ON fl.pt_created_by = u.id 
+            ORDER BY fl.created_at DESC 
+            LIMIT 5
+        ");
+        $stmt->execute();
+    }
     $recentLogs = $stmt->fetchAll();
+
     
     // Status distribution
     $statusStats = $pdo->query("

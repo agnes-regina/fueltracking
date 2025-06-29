@@ -366,16 +366,17 @@ $base_url = "/fueltracking/";
                 
                 <ul class="navbar-nav">
                     <?php if (isLoggedIn()): ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle"></i> <?php echo $_SESSION['full_name']; ?>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="<?= $base_url ?>profile.php">Profile</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="<?= $base_url ?>logout.php">Logout</a></li>
-                            </ul>
-                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="<?= $base_url ?>profile.php">
+                            <i class="bi bi-person-circle"></i> <?php echo $_SESSION['full_name']; ?>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="<?= $base_url ?>logout.php">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+
                     <?php else: ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= $base_url ?>login.php">

@@ -19,6 +19,11 @@ $unitFilter = $_GET['unit'] ?? '';
 $whereConditions = [];
 $params = [];
 
+if ($_SESSION['role'] === 'driver') {
+    $whereConditions[] = "pt_driver_id = ?";
+    $params[] = $_SESSION['user_id'];
+}
+
 if ($statusFilter && $statusFilter !== 'all') {
     $whereConditions[] = "status_progress = ?";
     $params[] = $statusFilter;
