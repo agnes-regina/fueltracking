@@ -1,3 +1,6 @@
+<?php
+$base_url = "/fueltracking/";
+?>
 
 <?php
 require_once 'config/db.php';
@@ -93,7 +96,7 @@ require_once 'includes/header.php';
                 <div class="row">
                     <?php if (hasRole('pengawas_transportir')): ?>
                         <div class="col-md-4 mb-3">
-                            <a href="pengawas/create.php" class="btn btn-primary w-100 py-2">
+                            <a href="<?= $base_url ?>pengawas/create.php" class="btn btn-primary w-100 py-2">
                                 <i class="bi bi-plus-circle"></i><br>
                                 Buat Pengiriman Baru
                             </a>
@@ -102,7 +105,7 @@ require_once 'includes/header.php';
                     
                     <?php if (hasRole('pengawas_lapangan')): ?>
                         <div class="col-md-4 mb-3">
-                            <a href="lapangan/list.php" class="btn btn-warning w-100 py-2">
+                            <a href="<?= $base_url ?>lapangan/list.php" class="btn btn-warning w-100 py-2">
                                 <i class="bi bi-clipboard-check"></i><br>
                                 Input Loading Log
                             </a>
@@ -111,7 +114,7 @@ require_once 'includes/header.php';
                     
                     <?php if (hasRole('driver')): ?>
                         <div class="col-md-4 mb-3">
-                            <a href="driver/list.php" class="btn btn-info w-100 py-2">
+                            <a href="<?= $base_url ?>driver/list.php" class="btn btn-info w-100 py-2">
                                 <i class="bi bi-truck"></i><br>
                                 Update Status Driver
                             </a>
@@ -120,7 +123,7 @@ require_once 'includes/header.php';
                     
                     <?php if (hasRole('pengawas_depo')): ?>
                         <div class="col-md-4 mb-3">
-                            <a href="depo/list.php" class="btn btn-warning w-100 py-2">
+                            <a href="<?= $base_url ?>depo/list.php" class="btn btn-warning w-100 py-2">
                                 <i class="bi bi-building"></i><br>
                                 Input Data Depo
                             </a>
@@ -129,7 +132,7 @@ require_once 'includes/header.php';
                     
                     <?php if (hasRole('fuelman')): ?>
                         <div class="col-md-4 mb-3">
-                            <a href="fuelman/list.php" class="btn btn-success w-100 py-2">
+                            <a href="<?= $base_url ?>fuelman/list.php" class="btn btn-success w-100 py-2">
                                 <i class="bi bi-droplet"></i><br>
                                 Proses Unloading
                             </a>
@@ -138,7 +141,7 @@ require_once 'includes/header.php';
                     
                     <?php if (hasRole('admin') || hasRole('gl_pama')): ?>
                         <div class="col-md-4 mb-3">
-                            <a href="logs.php" class="btn btn-secondary w-100 py-2">
+                            <a href="<?= $base_url ?>logs.php" class="btn btn-secondary w-100 py-2">
                                 <i class="bi bi-graph-up"></i><br>
                                 Monitoring & Reports
                             </a>
@@ -146,7 +149,7 @@ require_once 'includes/header.php';
                     <?php endif; ?>
                     
                     <div class="col-md-4 mb-3">
-                        <a href="logs.php" class="btn btn-outline-primary w-100 py-2">
+                        <a href="<?= $base_url ?>logs.php" class="btn btn-outline-primary w-100 py-2">
                             <i class="bi bi-list-ul"></i><br>
                             Lihat Semua Data
                         </a>
@@ -191,7 +194,7 @@ require_once 'includes/header.php';
                                         </td>
                                         <td><?php echo date('d/m/Y H:i', strtotime($log['created_at'])); ?></td>
                                         <td>
-                                            <a href="detail.php?id=<?php echo $log['id']; ?>" 
+                                            <a href="<?= $base_url ?>detail.php?id=<?php echo $log['id']; ?>" 
                                                class="btn btn-sm btn-outline-primary">
                                                 <i class="bi bi-eye"></i>
                                             </a>

@@ -1,4 +1,6 @@
-
+<?php
+$base_url = "/fueltracking/";
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -179,7 +181,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/fueltracking">
                 <i class="bi bi-fuel-pump"></i> Fuel Transport Tracking
             </a>
             
@@ -191,14 +193,14 @@
                 <ul class="navbar-nav me-auto">
                     <?php if (isLoggedIn()): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/dashboard.php">
+                            <a class="nav-link" href="<?= $base_url ?>dashboard.php">
                                 <i class="bi bi-speedometer2"></i> Dashboard
                             </a>
                         </li>
                         
                         <?php if (hasRole('admin')): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/admin/users.php">
+                                <a class="nav-link" href="<?= $base_url ?>admin/users.php">
                                     <i class="bi bi-people"></i> Kelola User
                                 </a>
                             </li>
@@ -206,14 +208,14 @@
                         
                         <?php if (hasRole('pengawas_transportir')): ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="/pengawas/create.php">
+                                <a class="nav-link" href="<?= $base_url ?>pengawas/create.php">
                                     <i class="bi bi-plus-circle"></i> Buat Pengiriman
                                 </a>
                             </li>
                         <?php endif; ?>
                         
                         <li class="nav-item">
-                            <a class="nav-link" href="/logs.php">
+                            <a class="nav-link" href="<?= $base_url ?>logs.php">
                                 <i class="bi bi-list-ul"></i> Data Pengiriman
                             </a>
                         </li>
@@ -227,14 +229,14 @@
                                 <i class="bi bi-person-circle"></i> <?php echo $_SESSION['full_name']; ?>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/profile.php">Profile</a></li>
+                                <li><a class="dropdown-item" href="<?= $base_url ?>profile.php">Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="/logout.php">Logout</a></li>
+                                <li><a class="dropdown-item" href="<?= $base_url ?>logout.php">Logout</a></li>
                             </ul>
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login.php">
+                            <a class="nav-link" href="<?= $base_url ?>login.php">
                                 <i class="bi bi-box-arrow-in-right"></i> Login
                             </a>
                         </li>
