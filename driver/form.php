@@ -1,3 +1,4 @@
+
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -30,12 +31,21 @@ try {
         $error = 'Data sudah diproses atau belum siap untuk diisi';
     }
     
+    // Check if Form 1 is already completed
+    $form1_completed = !empty($log['dr_loading_start']) && !empty($log['dr_loading_end']) && !empty($log['dr_loading_location']);
+    
+    // Auto redirect to Form 2 if Form 1 is completed
+    if ($form1_completed && $form == '1') {
+        header('Location: form.php?id=' . $id . '&form=2');
+        exit();
+    }
+    
 } catch(PDOException $e) {
     $error = "Error: " . $e->getMessage();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$error) {
-    if ($form == '1') {
+    if ($form == '1' && !$form1_completed) {
         // Form 1 data
         $dr_loading_start = $_POST['dr_loading_start'] ?? '';
         $dr_loading_end = $_POST['dr_loading_end'] ?? '';
@@ -127,16 +137,16 @@ require_once '../includes/header.php';
                 </h4>
             </div>
             <div class="card-body">
-<?php if ($success): ?>
+                <?php if ($success): ?>
                     <div class="alert alert-success">
                         <i class="bi bi-check-circle"></i> <?php echo $success; ?>
                         <hr class="my-3">
                         <div class="d-grid gap-2">
-<?php if ($form == '1'): ?>
+                            <?php if ($form == '1'): ?>
                                 <a href="form.php?id=<?php echo $id; ?>&form=2" class="btn btn-primary">
                                     <i class="bi bi-arrow-right"></i> Lanjut ke FORM 2
                                 </a>
-<?php endif; ?>
+                            <?php endif; ?>
                             <a href="list.php" class="btn btn-outline-success">
                                 <i class="bi bi-list"></i> Kembali ke List
                             </a>
@@ -145,18 +155,18 @@ require_once '../includes/header.php';
                             </a>
                         </div>
                     </div>
-<?php endif; ?>
+                <?php endif; ?>
                 
-<?php if ($error): ?>
+                <?php if ($error): ?>
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle"></i> <?php echo $error; ?>
                     </div>
-<?php endif; ?>
+                <?php endif; ?>
                 
-<?php if (!$error && !$success): ?>
+                <?php if (!$error && !$success): ?>
                     <!-- Progress Indicator -->
                     <div class="progress-indicator">
-                        <div class="progress-step <?php echo $form == '1' ? 'current' : 'active'; ?>">
+                        <div class="progress-step <?php echo $form1_completed ? 'active' : ($form == '1' ? 'current' : ''); ?>">
                             <div class="progress-circle">1</div>
                             <small>Loading Data</small>
                         </div>
@@ -169,22 +179,31 @@ require_once '../includes/header.php';
                     <!-- Basic Info Display -->
                     <div class="row mb-4">
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card border-primary">
                                 <div class="card-body">
-                                    <h6><i class="bi bi-info-circle"></i> Informasi Pengiriman:</h6>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <p><strong>Unit:</strong><br><?php echo htmlspecialchars($log['nomor_unit']); ?></p>
+                                    <h6><i class="bi bi-info-circle text-primary"></i> Informasi Pengiriman:</h6>
+                                    <div class="row g-3">
+                                        <div class="col-sm-6">
+                                            <div class="bg-light p-3 rounded">
+                                                <strong><i class="bi bi-truck"></i> Unit:</strong><br>
+                                                <span class="h5 text-primary"><?php echo htmlspecialchars($log['nomor_unit']); ?></span>
+                                            </div>
                                         </div>
-                                        <div class="col-6">
-                                            <p><strong>Driver:</strong><br><?php echo htmlspecialchars($log['driver_name']); ?></p>
+                                        <div class="col-sm-6">
+                                            <div class="bg-light p-3 rounded">
+                                                <strong><i class="bi bi-person"></i> Driver:</strong><br>
+                                                <span class="h5 text-primary"><?php echo htmlspecialchars($log['driver_name']); ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="bg-light p-3 rounded text-center">
+                                                <strong><i class="bi bi-flag"></i> Status:</strong><br>
+                                                <span class="status-badge status-<?php echo $log['status_progress']; ?>">
+                                                    <?php echo $statusLabels[$log['status_progress']]; ?>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <p><strong>Status:</strong><br>
-                                        <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-<?php echo $statusLabels[$log['status_progress']]; ?>
-                                        </span>
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -193,31 +212,43 @@ require_once '../includes/header.php';
                     <!-- Form Navigation -->
                     <div class="row mb-4">
                         <div class="col-6">
-                            <a href="form.php?id=<?php echo $id; ?>&form=1" 
-                               class="btn <?php echo $form == '1' ? 'btn-primary' : 'btn-outline-primary'; ?> w-100">
-                                <i class="bi bi-upload"></i> FORM 1<br><small>Loading Data</small>
-                            </a>
+                            <?php if ($form1_completed): ?>
+                                <div class="btn btn-success w-100 disabled">
+                                    <i class="bi bi-check-circle"></i> FORM 1<br><small>✓ Sudah Terisi</small>
+                                </div>
+                            <?php else: ?>
+                                <a href="form.php?id=<?php echo $id; ?>&form=1" 
+                                   class="btn <?php echo $form == '1' ? 'btn-primary' : 'btn-outline-primary'; ?> w-100">
+                                    <i class="bi bi-upload"></i> FORM 1<br><small>Loading Data</small>
+                                </a>
+                            <?php endif; ?>
                         </div>
                         <div class="col-6">
-                            <a href="form.php?id=<?php echo $id; ?>&form=2" 
-                               class="btn <?php echo $form == '2' ? 'btn-primary' : 'btn-outline-primary'; ?> w-100">
-                                <i class="bi bi-download"></i> FORM 2<br><small>Unloading Data</small>
-                            </a>
+                            <?php if ($form1_completed): ?>
+                                <a href="form.php?id=<?php echo $id; ?>&form=2" 
+                                   class="btn <?php echo $form == '2' ? 'btn-primary' : 'btn-outline-primary'; ?> w-100">
+                                    <i class="bi bi-download"></i> FORM 2<br><small>Unloading Data</small>
+                                </a>
+                            <?php else: ?>
+                                <div class="btn btn-outline-secondary w-100 disabled">
+                                    <i class="bi bi-lock"></i> FORM 2<br><small>Terkunci</small>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                     
-<?php if ($form == '1'): ?>
+                    <?php if ($form == '1' && !$form1_completed): ?>
                         <!-- FORM 1: Loading Information -->
                         <form method="POST" enctype="multipart/form-data" id="driverForm1">
-                            <div class="card mb-4">
-                                <div class="card-header">
+                            <div class="card mb-4 border-primary">
+                                <div class="card-header bg-primary text-white">
                                     <h5><i class="bi bi-clipboard-check"></i> FORM 1: Data Loading (Versi Driver)</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12 mb-3">
+                                    <div class="row g-3">
+                                        <div class="col-12">
                                             <label for="dr_loading_start" class="form-label">
-                                                <i class="bi bi-play-circle"></i> Waktu Mulai Loading *
+                                                <i class="bi bi-play-circle text-success"></i> Waktu Mulai Loading *
                                             </label>
                                             <input type="datetime-local" class="form-control" id="dr_loading_start" 
                                                    name="dr_loading_start" required>
@@ -227,9 +258,9 @@ require_once '../includes/header.php';
                                             </button>
                                         </div>
                                         
-                                        <div class="col-12 mb-3">
+                                        <div class="col-12">
                                             <label for="dr_loading_end" class="form-label">
-                                                <i class="bi bi-stop-circle"></i> Waktu Selesai Loading *
+                                                <i class="bi bi-stop-circle text-danger"></i> Waktu Selesai Loading *
                                             </label>
                                             <input type="datetime-local" class="form-control" id="dr_loading_end" 
                                                    name="dr_loading_end" required>
@@ -239,9 +270,9 @@ require_once '../includes/header.php';
                                             </button>
                                         </div>
                                         
-                                        <div class="col-12 mb-3">
+                                        <div class="col-12">
                                             <label for="dr_loading_location" class="form-label">
-                                                <i class="bi bi-geo-alt"></i> Lokasi Loading *
+                                                <i class="bi bi-geo-alt text-primary"></i> Lokasi Loading *
                                             </label>
                                             <input type="text" class="form-control" id="dr_loading_location" 
                                                    name="dr_loading_location" placeholder="Koordinat GPS" required>
@@ -251,9 +282,9 @@ require_once '../includes/header.php';
                                             </button>
                                         </div>
                                         
-                                        <div class="col-12 mb-3">
+                                        <div class="col-12">
                                             <label for="dr_waktu_keluar_pertamina" class="form-label">
-                                                <i class="bi bi-box-arrow-right"></i> Waktu Keluar Pertamina *
+                                                <i class="bi bi-box-arrow-right text-warning"></i> Waktu Keluar Pertamina *
                                             </label>
                                             <input type="datetime-local" class="form-control" id="dr_waktu_keluar_pertamina" 
                                                    name="dr_waktu_keluar_pertamina" required>
@@ -265,56 +296,95 @@ require_once '../includes/header.php';
                                     </div>
                                     
                                     <!-- Segel Photos (Driver Version) -->
-                                    <h6 class="mt-4 mb-3"><i class="bi bi-camera"></i> Foto Segel (Versi Driver)</h6>
-<?php for($i = 1; $i <= 4; $i++): ?>
-                                        <div class="mb-3">
-                                            <label for="dr_segel_photo_<?php echo $i; ?>" class="form-label">
-                                                <i class="bi bi-shield"></i> Foto Segel <?php echo $i; ?>
-                                            </label>
-                                            <input type="file" class="form-control" id="dr_segel_photo_<?php echo $i; ?>" 
-                                                   name="dr_segel_photo_<?php echo $i; ?>" accept="image/*"
-                                                   onchange="previewImage(this, 'preview_dr_segel_<?php echo $i; ?>')">
-                                            <img id="preview_dr_segel_<?php echo $i; ?>" class="photo-preview" style="display: none;">
+                                    <div class="mt-4">
+                                        <h6 class="text-primary"><i class="bi bi-camera"></i> Foto Segel (Versi Driver)</h6>
+                                        <div class="row g-3">
+                                            <?php for($i = 1; $i <= 4; $i++): ?>
+                                                <div class="col-sm-6">
+                                                    <div class="card border-light">
+                                                        <div class="card-body p-3">
+                                                            <label for="dr_segel_photo_<?php echo $i; ?>" class="form-label">
+                                                                <i class="bi bi-shield text-warning"></i> Foto Segel <?php echo $i; ?>
+                                                            </label>
+                                                            <input type="file" class="form-control mb-2" id="dr_segel_photo_<?php echo $i; ?>" 
+                                                                   name="dr_segel_photo_<?php echo $i; ?>" accept="image/*"
+                                                                   onchange="previewImage(this, 'preview_dr_segel_<?php echo $i; ?>')">
+                                                            <button type="button" class="btn btn-outline-primary w-100 mb-2" 
+                                                                    onclick="openCamera('dr_segel_photo_<?php echo $i; ?>', 'preview_dr_segel_<?php echo $i; ?>')">
+                                                                <i class="bi bi-camera"></i> Buka Kamera
+                                                            </button>
+                                                            <img id="preview_dr_segel_<?php echo $i; ?>" class="photo-preview w-100" style="display: none;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endfor; ?>
                                         </div>
-<?php endfor; ?>
+                                    </div>
                                     
                                     <!-- Documents (Driver Version) -->
-                                    <h6 class="mt-4 mb-3"><i class="bi bi-file-earmark-text"></i> Dokumen (Versi Driver)</h6>
-                                    
-                                    <div class="mb-3">
-                                        <label for="dr_doc_do" class="form-label">
-                                            <i class="bi bi-file-text"></i> Foto Delivery Order
-                                        </label>
-                                        <input type="file" class="form-control" id="dr_doc_do" 
-                                               name="dr_doc_do" accept="image/*,application/pdf"
-                                               onchange="previewImage(this, 'preview_dr_do')">
-                                        <img id="preview_dr_do" class="photo-preview" style="display: none;">
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="dr_doc_surat_pertamina" class="form-label">
-                                            <i class="bi bi-envelope"></i> Foto Surat Pertamina
-                                        </label>
-                                        <input type="file" class="form-control" id="dr_doc_surat_pertamina" 
-                                               name="dr_doc_surat_pertamina" accept="image/*,application/pdf"
-                                               onchange="previewImage(this, 'preview_dr_surat')">
-                                        <img id="preview_dr_surat" class="photo-preview" style="display: none;">
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="dr_doc_sampel_bbm" class="form-label">
-                                            <i class="bi bi-droplet"></i> Foto Sampel BBM
-                                        </label>
-                                        <input type="file" class="form-control" id="dr_doc_sampel_bbm" 
-                                               name="dr_doc_sampel_bbm" accept="image/*,application/pdf"
-                                               onchange="previewImage(this, 'preview_dr_sampel')">
-                                        <img id="preview_dr_sampel" class="photo-preview" style="display: none;">
+                                    <div class="mt-4">
+                                        <h6 class="text-primary"><i class="bi bi-file-earmark-text"></i> Dokumen (Versi Driver)</h6>
+                                        <div class="row g-3">
+                                            <div class="col-sm-6">
+                                                <div class="card border-light">
+                                                    <div class="card-body p-3">
+                                                        <label for="dr_doc_do" class="form-label">
+                                                            <i class="bi bi-file-text text-info"></i> Foto Delivery Order
+                                                        </label>
+                                                        <input type="file" class="form-control mb-2" id="dr_doc_do" 
+                                                               name="dr_doc_do" accept="image/*,application/pdf"
+                                                               onchange="previewImage(this, 'preview_dr_do')">
+                                                        <button type="button" class="btn btn-outline-primary w-100 mb-2" 
+                                                                onclick="openCamera('dr_doc_do', 'preview_dr_do')">
+                                                            <i class="bi bi-camera"></i> Buka Kamera
+                                                        </button>
+                                                        <img id="preview_dr_do" class="photo-preview w-100" style="display: none;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-sm-6">
+                                                <div class="card border-light">
+                                                    <div class="card-body p-3">
+                                                        <label for="dr_doc_surat_pertamina" class="form-label">
+                                                            <i class="bi bi-envelope text-success"></i> Foto Surat Pertamina
+                                                        </label>
+                                                        <input type="file" class="form-control mb-2" id="dr_doc_surat_pertamina" 
+                                                               name="dr_doc_surat_pertamina" accept="image/*,application/pdf"
+                                                               onchange="previewImage(this, 'preview_dr_surat')">
+                                                        <button type="button" class="btn btn-outline-primary w-100 mb-2" 
+                                                                onclick="openCamera('dr_doc_surat_pertamina', 'preview_dr_surat')">
+                                                            <i class="bi bi-camera"></i> Buka Kamera
+                                                        </button>
+                                                        <img id="preview_dr_surat" class="photo-preview w-100" style="display: none;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-12">
+                                                <div class="card border-light">
+                                                    <div class="card-body p-3">
+                                                        <label for="dr_doc_sampel_bbm" class="form-label">
+                                                            <i class="bi bi-droplet text-primary"></i> Foto Sampel BBM
+                                                        </label>
+                                                        <input type="file" class="form-control mb-2" id="dr_doc_sampel_bbm" 
+                                                               name="dr_doc_sampel_bbm" accept="image/*,application/pdf"
+                                                               onchange="previewImage(this, 'preview_dr_sampel')">
+                                                        <button type="button" class="btn btn-outline-primary w-100 mb-2" 
+                                                                onclick="openCamera('dr_doc_sampel_bbm', 'preview_dr_sampel')">
+                                                            <i class="bi bi-camera"></i> Buka Kamera
+                                                        </button>
+                                                        <img id="preview_dr_sampel" class="photo-preview w-100" style="display: none;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary" id="submitBtn1">
+                                <button type="submit" class="btn btn-primary btn-lg" id="submitBtn1">
                                     <i class="bi bi-save"></i> Simpan FORM 1
                                 </button>
                                 <a href="list.php" class="btn btn-outline-secondary">
@@ -323,11 +393,11 @@ require_once '../includes/header.php';
                             </div>
                         </form>
                     
-<?php else: ?>
+                    <?php elseif ($form == '2' && $form1_completed): ?>
                         <!-- FORM 2: Unloading Information -->
                         <form method="POST" enctype="multipart/form-data" id="driverForm2">
-                            <div class="card mb-4">
-                                <div class="card-header">
+                            <div class="card mb-4 border-success">
+                                <div class="card-header bg-success text-white">
                                     <h5><i class="bi bi-download"></i> FORM 2: Data Unloading</h5>
                                 </div>
                                 <div class="card-body">
@@ -336,64 +406,91 @@ require_once '../includes/header.php';
                                         <strong>Petunjuk:</strong> Isi form ini setelah Anda sampai di lokasi tujuan dan siap melakukan unloading.
                                     </div>
                                     
-                                    <div class="mb-3">
-                                        <label for="dr_unload_start" class="form-label">
-                                            <i class="bi bi-play-circle"></i> Waktu Mulai Unloading *
-                                        </label>
-                                        <input type="datetime-local" class="form-control" id="dr_unload_start" 
-                                               name="dr_unload_start" required>
-                                        <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
-                                                onclick="setCurrentTime('dr_unload_start')">
-                                            <i class="bi bi-clock"></i> Gunakan Waktu Sekarang
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="dr_unload_end" class="form-label">
-                                            <i class="bi bi-stop-circle"></i> Waktu Selesai Unloading *
-                                        </label>
-                                        <input type="datetime-local" class="form-control" id="dr_unload_end" 
-                                               name="dr_unload_end" required>
-                                        <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
-                                                onclick="setCurrentTime('dr_unload_end')">
-                                            <i class="bi bi-clock"></i> Gunakan Waktu Sekarang
-                                        </button>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label for="dr_unload_location" class="form-label">
-                                            <i class="bi bi-geo-alt"></i> Lokasi Unloading *
-                                        </label>
-                                        <input type="text" class="form-control" id="dr_unload_location" 
-                                               name="dr_unload_location" placeholder="Koordinat GPS" required>
-                                        <button type="button" class="btn btn-outline-primary mt-2 w-100" 
-                                                onclick="autoFillLocation('dr_unload_location')">
-                                            <i class="bi bi-crosshair"></i> Ambil Lokasi GPS Saya
-                                        </button>
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label for="dr_unload_start" class="form-label">
+                                                <i class="bi bi-play-circle text-success"></i> Waktu Mulai Unloading *
+                                            </label>
+                                            <input type="datetime-local" class="form-control" id="dr_unload_start" 
+                                                   name="dr_unload_start" required>
+                                            <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
+                                                    onclick="setCurrentTime('dr_unload_start')">
+                                                <i class="bi bi-clock"></i> Gunakan Waktu Sekarang
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="col-12">
+                                            <label for="dr_unload_end" class="form-label">
+                                                <i class="bi bi-stop-circle text-danger"></i> Waktu Selesai Unloading *
+                                            </label>
+                                            <input type="datetime-local" class="form-control" id="dr_unload_end" 
+                                                   name="dr_unload_end" required>
+                                            <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
+                                                    onclick="setCurrentTime('dr_unload_end')">
+                                                <i class="bi bi-clock"></i> Gunakan Waktu Sekarang
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="col-12">
+                                            <label for="dr_unload_location" class="form-label">
+                                                <i class="bi bi-geo-alt text-primary"></i> Lokasi Unloading *
+                                            </label>
+                                            <input type="text" class="form-control" id="dr_unload_location" 
+                                                   name="dr_unload_location" placeholder="Koordinat GPS" required>
+                                            <button type="button" class="btn btn-outline-primary mt-2 w-100" 
+                                                    onclick="autoFillLocation('dr_unload_location')">
+                                                <i class="bi bi-crosshair"></i> Ambil Lokasi GPS Saya
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-success" id="submitBtn2">
+                                <button type="submit" class="btn btn-success btn-lg" id="submitBtn2">
                                     <i class="bi bi-check-circle"></i> Simpan & Lanjutkan ke Pengawas Depo
                                 </button>
-                                <a href="form.php?id=<?php echo $id; ?>&form=1" class="btn btn-outline-primary">
-                                    <i class="bi bi-arrow-left"></i> Kembali ke FORM 1
-                                </a>
                                 <a href="list.php" class="btn btn-outline-secondary">
                                     <i class="bi bi-list"></i> Kembali ke List
                                 </a>
                             </div>
                         </form>
-<?php endif; ?>
-<?php endif; ?>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Camera Modal -->
+<div class="modal fade" id="cameraModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ambil Foto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <video id="cameraVideo" autoplay playsinline style="width: 100%; max-width: 400px;"></video>
+                <canvas id="cameraCanvas" style="display: none;"></canvas>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-primary" id="captureBtn">
+                        <i class="bi bi-camera"></i> Ambil Foto
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x"></i> Batal
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+let currentInput = null;
+let currentPreview = null;
+let stream = null;
+
 // Set current time function
 function setCurrentTime(fieldId) {
     const now = new Date();
@@ -429,6 +526,63 @@ function previewImage(input, previewId) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+// Open camera function
+function openCamera(inputId, previewId) {
+    currentInput = document.getElementById(inputId);
+    currentPreview = document.getElementById(previewId);
+    
+    const modal = new bootstrap.Modal(document.getElementById('cameraModal'));
+    modal.show();
+    
+    // Start camera
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(function(mediaStream) {
+            stream = mediaStream;
+            document.getElementById('cameraVideo').srcObject = stream;
+        })
+        .catch(function(err) {
+            console.error('Error accessing camera:', err);
+            alert('Tidak dapat mengakses kamera: ' + err.message);
+        });
+}
+
+// Capture photo
+document.getElementById('captureBtn').addEventListener('click', function() {
+    const video = document.getElementById('cameraVideo');
+    const canvas = document.getElementById('cameraCanvas');
+    const context = canvas.getContext('2d');
+    
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0);
+    
+    canvas.toBlob(function(blob) {
+        const file = new File([blob], 'camera-photo.jpg', { type: 'image/jpeg' });
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        currentInput.files = dataTransfer.files;
+        
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentPreview.src = e.target.result;
+            currentPreview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+        
+        // Close modal
+        bootstrap.Modal.getInstance(document.getElementById('cameraModal')).hide();
+    }, 'image/jpeg', 0.8);
+});
+
+// Stop camera when modal is closed
+document.getElementById('cameraModal').addEventListener('hidden.bs.modal', function() {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+    }
+});
 
 // Form validation
 document.getElementById('driverForm1')?.addEventListener('submit', function(e) {
