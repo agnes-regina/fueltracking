@@ -1,4 +1,3 @@
-
 <?php
 require_once 'config/db.php';
 requireLogin();
@@ -144,35 +143,8 @@ require_once 'includes/header.php';
 
         <!-- Data Sections -->
         <div class="row">
-            <!-- Pengawas Transportir Data -->
-            <?php if (!empty($log['pt_created_at'])): ?>
-                <div class="col-lg-6 mb-4">
-                    <div class="card h-100 border-warning">
-                        <div class="card-header bg-warning text-dark">
-                            <h6 class="mb-0"><i class="bi bi-person-badge"></i> Data Pengawas Transportir</h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <small class="text-muted">Diisi oleh:</small>
-                                <div class="fw-bold"><?php echo htmlspecialchars($log['pt_creator_name'] ?? 'N/A'); ?></div>
-                            </div>
-                            <div class="mb-3">
-                                <small class="text-muted">Waktu Input:</small>
-                                <div><?php echo date('d/m/Y H:i', strtotime($log['pt_created_at'])); ?></div>
-                            </div>
-                            <div class="mb-3">
-                                <small class="text-muted">Driver ID:</small>
-                                <div class="fw-bold"><?php echo htmlspecialchars($log['pt_driver_id'] ?? 'N/A'); ?></div>
-                            </div>
-                            <div>
-                                <small class="text-muted">Unit Number:</small>
-                                <div class="fw-bold"><?php echo htmlspecialchars($log['pt_unit_number'] ?? 'N/A'); ?></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endif; ?>
-
+            <!-- Continue with existing sections but add map buttons for locations -->
+            
             <!-- Pengawas Lapangan Data -->
             <?php if (!empty($log['pl_created_at'])): ?>
                 <div class="col-lg-6 mb-4">
@@ -182,6 +154,7 @@ require_once 'includes/header.php';
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
+                                
                                 <div class="col-12">
                                     <small class="text-muted">Diisi oleh:</small>
                                     <div class="fw-bold"><?php echo htmlspecialchars($log['pl_creator_name'] ?? 'N/A'); ?></div>
@@ -196,7 +169,15 @@ require_once 'includes/header.php';
                                 </div>
                                 <div class="col-12">
                                     <small class="text-muted">Lokasi:</small>
-                                    <div><?php echo htmlspecialchars($log['pl_loading_location'] ?? 'N/A'); ?></div>
+                                    <div data-coordinates="<?php echo htmlspecialchars($log['pl_loading_location'] ?? ''); ?>">
+                                        <?php echo htmlspecialchars($log['pl_loading_location'] ?? 'N/A'); ?>
+                                    </div>
+                                    <?php if (!empty($log['pl_loading_location'])): ?>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-1" 
+                                                onclick="showLocationOnMap('<?php echo htmlspecialchars($log['pl_loading_location']); ?>')">
+                                            <i class="bi bi-geo-alt"></i> Lihat Peta
+                                        </button>
+                                    <?php endif; ?>
                                 </div>
                                 
                                 <!-- Foto Segel -->
@@ -260,6 +241,7 @@ require_once 'includes/header.php';
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
+                                
                                 <div class="col-12">
                                     <small class="text-muted">Diisi oleh:</small>
                                     <div class="fw-bold"><?php echo htmlspecialchars($log['dr_creator_name'] ?? 'N/A'); ?></div>
@@ -294,6 +276,10 @@ require_once 'includes/header.php';
                                     <div class="col-12">
                                         <small class="text-muted">Lokasi Unloading:</small>
                                         <div><?php echo htmlspecialchars($log['dr_unload_location'] ?? 'N/A'); ?></div>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-1" 
+                                                onclick="showLocationOnMap('<?php echo htmlspecialchars($log['dr_unload_location']); ?>')">
+                                            <i class="bi bi-geo-alt"></i> Lihat Peta
+                                        </button>
                                     </div>
                                 <?php endif; ?>
                                 
@@ -427,6 +413,18 @@ require_once 'includes/header.php';
                                     <small class="text-muted">FAME:</small>
                                     <div><?php echo $log['fm_fuel_fame'] ?? 'N/A'; ?>%</div>
                                 </div>
+                                
+                                <!-- Location with Map Button -->
+                                <?php if (!empty($log['fm_location'])): ?>
+                                    <div class="col-12">
+                                        <small class="text-muted">Lokasi:</small>
+                                        <div><?php echo htmlspecialchars($log['fm_location']); ?></div>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-1" 
+                                                onclick="showLocationOnMap('<?php echo htmlspecialchars($log['fm_location']); ?>')">
+                                            <i class="bi bi-geo-alt"></i> Lihat Peta
+                                        </button>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -493,4 +491,7 @@ window.addEventListener('afterprint', function() {
 }
 </style>
 
-<?php require_once 'includes/footer.php'; ?>
+<?php 
+require_once 'includes/maps.php';
+require_once 'includes/footer.php'; 
+?>
