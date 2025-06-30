@@ -1,5 +1,6 @@
 <?php
-$base_url = "/";
+$base_url = "/fueltracking/"; // Adjust this to your base URL
+//$base_url = "/"; // Adjust this to your base URL
 require_once 'config/db.php';
 
 $pageTitle = 'Dashboard - Fuel Transport Tracking System';

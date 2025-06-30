@@ -1,5 +1,6 @@
 <?php
-$base_url = "/";
+$base_url = "/fueltracking/"; // Adjust this to your base URL
+//$base_url = "/"; // Adjust this to your base URL
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -322,7 +323,7 @@ $base_url = "/";
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="<?= $base_url ?>">
                 <i class="bi bi-fuel-pump"></i> Fuel Transport Tracking
             </a>
             
