@@ -1,4 +1,3 @@
-
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -33,13 +32,13 @@ require_once '../includes/header.php';
                 </h4>
             </div>
             <div class="card-body">
-                <?php if (isset($error)): ?>
+<?php if (isset($error)): ?>
                     <div class="alert alert-danger"><?php echo $error; ?></div>
-                <?php elseif (empty($logs)): ?>
+<?php elseif (empty($logs)): ?>
                     <div class="alert alert-info text-center">
                         <i class="bi bi-info-circle"></i> Belum ada data pengiriman
                     </div>
-                <?php else: ?>
+<?php else: ?>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="table-dark">
@@ -53,7 +52,7 @@ require_once '../includes/header.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($logs as $log): ?>
+<?php foreach ($logs as $log): ?>
                                     <tr>
                                         <td><strong>#<?php echo $log['id']; ?></strong></td>
                                         <td>
@@ -62,13 +61,13 @@ require_once '../includes/header.php';
                                         <td><?php echo htmlspecialchars($log['driver_name']); ?></td>
                                         <td>
                                             <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-                                                <?php echo $statusLabels[$log['status_progress']]; ?>
+<?php echo $statusLabels[$log['status_progress']]; ?>
                                             </span>
                                         </td>
                                         <td>
                                             <small>
-                                                <?php echo date('d/m/Y', strtotime($log['created_at'])); ?><br>
-                                                <?php echo date('H:i', strtotime($log['created_at'])); ?>
+<?php echo date('d/m/Y', strtotime($log['created_at'])); ?><br>
+<?php echo date('H:i', strtotime($log['created_at'])); ?>
                                             </small>
                                         </td>
                                         <td>
@@ -78,24 +77,24 @@ require_once '../includes/header.php';
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                                 
-                                                <?php if ($log['status_progress'] == 'waiting_depo'): ?>
+<?php if ($log['status_progress'] == 'waiting_depo'): ?>
                                                     <a href="form.php?id=<?php echo $log['id']; ?>" 
                                                        class="btn btn-primary" data-bs-toggle="tooltip" title="Input Data">
                                                         <i class="bi bi-building"></i>
                                                     </a>
-                                                <?php elseif ($log['pd_created_at']): ?>
+<?php elseif ($log['pd_created_at']): ?>
                                                     <span class="btn btn-success btn-sm" data-bs-toggle="tooltip" title="Sudah Diisi">
                                                         <i class="bi bi-check-circle"></i>
                                                     </span>
-                                                <?php endif; ?>
+<?php endif; ?>
                                             </div>
                                         </td>
                                     </tr>
-                                <?php endforeach; ?>
+<?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>

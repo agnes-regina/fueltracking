@@ -1,4 +1,3 @@
-
 <?php
 require_once 'config/db.php';
 
@@ -56,7 +55,7 @@ $pageTitle = 'Login - Fuel Transport Tracking System';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg,rgb(0, 112, 168) 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -80,7 +79,7 @@ $pageTitle = 'Login - Fuel Transport Tracking System';
         }
         
         .login-header {
-            background: linear-gradient(135deg, #1e3a8a, #0284c7);
+            background: linear-gradient(135deg,rgb(37, 237, 244), #0284c7);
             color: white;
             padding: 2rem;
             text-align: center;
@@ -109,12 +108,12 @@ $pageTitle = 'Login - Fuel Transport Tracking System';
         }
         
         .form-control:focus {
-            border-color: #1e3a8a;
-            box-shadow: 0 0 0 0.2rem rgba(30, 58, 138, 0.25);
+            border-color:rgb(138, 30, 30);
+            box-shadow: 0 0 0 0.2rem rgba(0, 251, 238, 0.25);
         }
         
         .btn-login {
-            background: linear-gradient(135deg, #1e3a8a, #0284c7);
+            background: linear-gradient(135deg,rgb(115, 152, 255),rgb(146, 2, 199));
             border: none;
             border-radius: 10px;
             padding: 0.75rem;
@@ -166,11 +165,11 @@ $pageTitle = 'Login - Fuel Transport Tracking System';
             </div>
             
             <div class="login-body">
-                <?php if ($error): ?>
+<?php if ($error): ?>
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle"></i> <?php echo htmlspecialchars($error); ?>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -198,12 +197,9 @@ $pageTitle = 'Login - Fuel Transport Tracking System';
                 </button>
                 
                 <div class="demo-accounts">
-                    <h6><i class="bi bi-info-circle"></i> Demo Accounts</h6>
+                    <h6><i class="bi bi-info-circle"></i> Login Role:</h6>
                     <small>
-                        <strong>Admin:</strong> admin / admin123<br>
-                        <strong>Pengawas:</strong> pengawas1 / admin123<br>
-                        <strong>Driver:</strong> driver1 / admin123<br>
-                        <strong>Fuelman:</strong> fuelman1 / admin123
+                        <strong>Using:</strong> Username & Password<br>
                     </small>
                 </div>
             </div>

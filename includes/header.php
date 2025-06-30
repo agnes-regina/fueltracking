@@ -1,6 +1,5 @@
-
 <?php
-$base_url = "/fueltracking/";
+$base_url = "/";
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -323,7 +322,7 @@ $base_url = "/fueltracking/";
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="/fueltracking">
+            <a class="navbar-brand" href="/">
                 <i class="bi bi-fuel-pump"></i> Fuel Transport Tracking
             </a>
             
@@ -333,39 +332,39 @@ $base_url = "/fueltracking/";
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <?php if (isLoggedIn()): ?>
+<?php if (isLoggedIn()): ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= $base_url ?>dashboard.php">
                                 <i class="bi bi-speedometer2"></i> Dashboard
                             </a>
                         </li>
                         
-                        <?php if (hasRole('admin')): ?>
+<?php if (hasRole('admin')): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="<?= $base_url ?>admin/users.php">
                                     <i class="bi bi-people"></i> Kelola User
                                 </a>
                             </li>
-                        <?php endif; ?>
+<?php endif; ?>
                         
-                        <?php if (hasRole('pengawas_transportir')): ?>
+<?php if (hasRole('pengawas_transportir')): ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="<?= $base_url ?>pengawas/create.php">
                                     <i class="bi bi-plus-circle"></i> Buat Pengiriman
                                 </a>
                             </li>
-                        <?php endif; ?>
+<?php endif; ?>
                         
                         <li class="nav-item">
                             <a class="nav-link" href="<?= $base_url ?>logs.php">
                                 <i class="bi bi-list-ul"></i> Data Pengiriman
                             </a>
                         </li>
-                    <?php endif; ?>
+<?php endif; ?>
                 </ul>
                 
                 <ul class="navbar-nav">
-                    <?php if (isLoggedIn()): ?>
+<?php if (isLoggedIn()): ?>
                         <li class="nav-item">
                         <a class="nav-link" href="<?= $base_url ?>profile.php">
                             <i class="bi bi-person-circle"></i> <?php echo $_SESSION['full_name']; ?>
@@ -377,13 +376,13 @@ $base_url = "/fueltracking/";
                         </a>
                     </li>
 
-                    <?php else: ?>
+<?php else: ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= $base_url ?>login.php">
                                 <i class="bi bi-box-arrow-in-right"></i> Login
                             </a>
                         </li>
-                    <?php endif; ?>
+<?php endif; ?>
                 </ul>
             </div>
         </div>

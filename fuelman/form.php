@@ -1,4 +1,3 @@
-
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -113,22 +112,22 @@ require_once '../includes/header.php';
                 </h4>
             </div>
             <div class="card-body">
-                <?php if ($success): ?>
+<?php if ($success): ?>
                     <div class="alert alert-success">
                         <i class="bi bi-check-circle"></i> <?php echo $success; ?>
                         <hr>
                         <a href="list.php" class="btn btn-outline-success">Kembali ke List</a>
                         <a href="../detail.php?id=<?php echo $id; ?>" class="btn btn-outline-primary">Lihat Detail</a>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
-                <?php if ($error): ?>
+<?php if ($error): ?>
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle"></i> <?php echo $error; ?>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
-                <?php if (!$error && !$success): ?>
+<?php if (!$error && !$success): ?>
                     <!-- Basic Info Display -->
                     <div class="row mb-4">
                         <div class="col-md-6">
@@ -139,7 +138,7 @@ require_once '../includes/header.php';
                                     <p><strong>Driver:</strong> <?php echo htmlspecialchars($log['driver_name']); ?></p>
                                     <p><strong>Status:</strong> 
                                         <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-                                            <?php echo $statusLabels[$log['status_progress']]; ?>
+<?php echo $statusLabels[$log['status_progress']]; ?>
                                         </span>
                                     </p>
                                 </div>
@@ -284,7 +283,7 @@ require_once '../includes/header.php';
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <?php for($i = 1; $i <= 4; $i++): ?>
+<?php for($i = 1; $i <= 4; $i++): ?>
                                         <div class="col-md-6 mb-3">
                                             <label for="fm_segel_photo_awal_<?php echo $i; ?>" class="form-label">
                                                 Foto Segel Awal <?php echo $i; ?>
@@ -294,7 +293,7 @@ require_once '../includes/header.php';
                                                    onchange="previewImage(this, 'preview_awal_<?php echo $i; ?>')">
                                             <img id="preview_awal_<?php echo $i; ?>" class="photo-preview mt-2" style="display: none;">
                                         </div>
-                                    <?php endfor; ?>
+<?php endfor; ?>
                                 </div>
                             </div>
                         </div>
@@ -306,7 +305,7 @@ require_once '../includes/header.php';
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <?php for($i = 1; $i <= 4; $i++): ?>
+<?php for($i = 1; $i <= 4; $i++): ?>
                                         <div class="col-md-6 mb-3">
                                             <label for="fm_photo_akhir_<?php echo $i; ?>" class="form-label">
                                                 Foto Tanki Kosong <?php echo $i; ?>
@@ -316,7 +315,7 @@ require_once '../includes/header.php';
                                                    onchange="previewImage(this, 'preview_akhir_<?php echo $i; ?>')">
                                             <img id="preview_akhir_<?php echo $i; ?>" class="photo-preview mt-2" style="display: none;">
                                         </div>
-                                    <?php endfor; ?>
+<?php endfor; ?>
                                 </div>
                                 
                                 <div class="row">
@@ -352,7 +351,7 @@ require_once '../includes/header.php';
                             </button>
                         </div>
                     </form>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>

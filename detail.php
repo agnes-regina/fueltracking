@@ -1,4 +1,3 @@
-
 <?php
 require_once 'config/db.php';
 requireLogin();
@@ -51,9 +50,9 @@ require_once 'includes/header.php';
                 </h4>
             </div>
             <div class="card-body">
-                <?php if (isset($error)): ?>
+<?php if (isset($error)): ?>
                     <div class="alert alert-danger"><?php echo $error; ?></div>
-                <?php else: ?>
+<?php else: ?>
                     <!-- Basic Info -->
                     <div class="row mb-4">
                         <div class="col-md-6">
@@ -75,7 +74,7 @@ require_once 'includes/header.php';
                                     <td><strong>Status:</strong></td>
                                     <td>
                                         <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-                                            <?php echo $statusLabels[$log['status_progress']]; ?>
+<?php echo $statusLabels[$log['status_progress']]; ?>
                                         </span>
                                     </td>
                                 </tr>
@@ -88,7 +87,7 @@ require_once 'includes/header.php';
                         <div class="col-md-6">
                             <h5><i class="bi bi-bar-chart"></i> Progress Timeline</h5>
                             <div class="timeline">
-                                <?php if ($log['pt_created_at']): ?>
+<?php if ($log['pt_created_at']): ?>
                                     <div class="timeline-item completed">
                                         <i class="bi bi-check-circle"></i>
                                         <div>
@@ -96,9 +95,9 @@ require_once 'includes/header.php';
                                             <small><?php echo date('d/m/Y H:i', strtotime($log['pt_created_at'])); ?></small>
                                         </div>
                                     </div>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php if ($log['pl_created_at']): ?>
+<?php if ($log['pl_created_at']): ?>
                                     <div class="timeline-item completed">
                                         <i class="bi bi-check-circle"></i>
                                         <div>
@@ -106,9 +105,9 @@ require_once 'includes/header.php';
                                             <small><?php echo date('d/m/Y H:i', strtotime($log['pl_created_at'])); ?></small>
                                         </div>
                                     </div>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php if ($log['dr_created_at']): ?>
+<?php if ($log['dr_created_at']): ?>
                                     <div class="timeline-item completed">
                                         <i class="bi bi-check-circle"></i>
                                         <div>
@@ -116,9 +115,9 @@ require_once 'includes/header.php';
                                             <small><?php echo date('d/m/Y H:i', strtotime($log['dr_created_at'])); ?></small>
                                         </div>
                                     </div>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php if ($log['pd_created_at']): ?>
+<?php if ($log['pd_created_at']): ?>
                                     <div class="timeline-item completed">
                                         <i class="bi bi-check-circle"></i>
                                         <div>
@@ -126,9 +125,9 @@ require_once 'includes/header.php';
                                             <small><?php echo date('d/m/Y H:i', strtotime($log['pd_created_at'])); ?></small>
                                         </div>
                                     </div>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php if ($log['fm_created_at']): ?>
+<?php if ($log['fm_created_at']): ?>
                                     <div class="timeline-item completed">
                                         <i class="bi bi-check-circle"></i>
                                         <div>
@@ -136,13 +135,13 @@ require_once 'includes/header.php';
                                             <small><?php echo date('d/m/Y H:i', strtotime($log['fm_created_at'])); ?></small>
                                         </div>
                                     </div>
-                                <?php endif; ?>
+<?php endif; ?>
                             </div>
                         </div>
                     </div>
 
                     <!-- Pengawas Lapangan Data -->
-                    <?php if ($log['pl_created_at']): ?>
+<?php if ($log['pl_created_at']): ?>
                         <div class="card mb-3">
                             <div class="card-header">
                                 <h5><i class="bi bi-clipboard-check"></i> Data Pengawas Lapangan</h5>
@@ -172,17 +171,17 @@ require_once 'includes/header.php';
                                     <div class="col-md-6">
                                         <h6>Nomor Segel:</h6>
                                         <ul>
-                                            <?php for($i = 1; $i <= 4; $i++): ?>
-                                                <?php if ($log["pl_segel_$i"]): ?>
+<?php for($i = 1; $i <= 4; $i++): ?>
+<?php if ($log["pl_segel_$i"]): ?>
                                                     <li>Segel <?php echo $i; ?>: <?php echo htmlspecialchars($log["pl_segel_$i"]); ?></li>
-                                                <?php endif; ?>
-                                            <?php endfor; ?>
+<?php endif; ?>
+<?php endfor; ?>
                                         </ul>
                                     </div>
                                 </div>
                                 
                                 <!-- Photos -->
-                                <?php 
+<?php 
                                 $photos = ['pl_segel_photo_1', 'pl_segel_photo_2', 'pl_segel_photo_3', 'pl_segel_photo_4'];
                                 $hasPhotos = false;
                                 foreach($photos as $photo) {
@@ -193,22 +192,22 @@ require_once 'includes/header.php';
                                 }
                                 ?>
                                 
-                                <?php if ($hasPhotos): ?>
+<?php if ($hasPhotos): ?>
                                     <h6>Foto Segel:</h6>
                                     <div class="row">
-                                        <?php foreach($photos as $photo): ?>
-                                            <?php if ($log[$photo]): ?>
+<?php foreach($photos as $photo): ?>
+<?php if ($log[$photo]): ?>
                                                 <div class="col-md-3 mb-2">
                                                     <img src="<?php echo htmlspecialchars($log[$photo]); ?>" 
                                                          class="photo-preview img-fluid" alt="Segel Photo">
                                                 </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
+<?php endif; ?>
+<?php endforeach; ?>
                                     </div>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
                                 <!-- Documents -->
-                                <?php 
+<?php 
                                 $docs = [
                                     'pl_doc_sampel' => 'Sampel BBM',
                                     'pl_doc_do' => 'Delivery Order', 
@@ -218,22 +217,22 @@ require_once 'includes/header.php';
                                 
                                 <h6>Dokumen:</h6>
                                 <div class="row">
-                                    <?php foreach($docs as $docField => $docName): ?>
-                                        <?php if ($log[$docField]): ?>
+<?php foreach($docs as $docField => $docName): ?>
+<?php if ($log[$docField]): ?>
                                             <div class="col-md-4 mb-2">
                                                 <strong><?php echo $docName; ?>:</strong><br>
                                                 <img src="<?php echo htmlspecialchars($log[$docField]); ?>" 
                                                      class="photo-preview img-fluid" alt="<?php echo $docName; ?>">
                                             </div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
+<?php endif; ?>
+<?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endif; ?>
+<?php endif; ?>
 
                     <!-- Driver Data -->
-                    <?php if ($log['dr_created_at']): ?>
+<?php if ($log['dr_created_at']): ?>
                         <div class="card mb-3">
                             <div class="card-header">
                                 <h5><i class="bi bi-person-badge"></i> Data Driver</h5>
@@ -281,7 +280,7 @@ require_once 'includes/header.php';
                                 </div>
                                 
                                 <!-- Driver Photos -->
-                                <?php 
+<?php 
                                 $drPhotos = ['dr_segel_photo_1', 'dr_segel_photo_2', 'dr_segel_photo_3', 'dr_segel_photo_4'];
                                 $drHasPhotos = false;
                                 foreach($drPhotos as $photo) {
@@ -292,22 +291,22 @@ require_once 'includes/header.php';
                                 }
                                 ?>
                                 
-                                <?php if ($drHasPhotos): ?>
+<?php if ($drHasPhotos): ?>
                                     <h6>Foto Segel (Driver):</h6>
                                     <div class="row">
-                                        <?php foreach($drPhotos as $photo): ?>
-                                            <?php if ($log[$photo]): ?>
+<?php foreach($drPhotos as $photo): ?>
+<?php if ($log[$photo]): ?>
                                                 <div class="col-md-3 mb-2">
                                                     <img src="<?php echo htmlspecialchars($log[$photo]); ?>" 
                                                          class="photo-preview img-fluid" alt="Driver Segel Photo">
                                                 </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
+<?php endif; ?>
+<?php endforeach; ?>
                                     </div>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
                                 <!-- Driver Documents -->
-                                <?php 
+<?php 
                                 $drDocs = [
                                     'dr_doc_do' => 'Delivery Order',
                                     'dr_doc_surat_pertamina' => 'Surat Pertamina',
@@ -317,22 +316,22 @@ require_once 'includes/header.php';
                                 
                                 <h6>Dokumen Driver:</h6>
                                 <div class="row">
-                                    <?php foreach($drDocs as $docField => $docName): ?>
-                                        <?php if ($log[$docField]): ?>
+<?php foreach($drDocs as $docField => $docName): ?>
+<?php if ($log[$docField]): ?>
                                             <div class="col-md-4 mb-2">
                                                 <strong><?php echo $docName; ?>:</strong><br>
                                                 <img src="<?php echo htmlspecialchars($log[$docField]); ?>" 
                                                      class="photo-preview img-fluid" alt="<?php echo $docName; ?>">
                                             </div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
+<?php endif; ?>
+<?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endif; ?>
+<?php endif; ?>
 
                     <!-- Pengawas Depo Data -->
-                    <?php if ($log['pd_created_at']): ?>
+<?php if ($log['pd_created_at']): ?>
                         <div class="card mb-3">
                             <div class="card-header">
                                 <h5><i class="bi bi-building"></i> Data Pengawas Depo</h5>
@@ -354,7 +353,7 @@ require_once 'includes/header.php';
                                 </div>
                                 
                                 <!-- Depo Photos -->
-                                <?php 
+<?php 
                                 $pdPhotos = [
                                     'pd_foto_kondisi_1' => 'Kondisi Segel 1',
                                     'pd_foto_kondisi_2' => 'Kondisi Segel 2', 
@@ -368,22 +367,22 @@ require_once 'includes/header.php';
                                 
                                 <h6>Dokumentasi:</h6>
                                 <div class="row">
-                                    <?php foreach($pdPhotos as $photoField => $photoName): ?>
-                                        <?php if ($log[$photoField]): ?>
+<?php foreach($pdPhotos as $photoField => $photoName): ?>
+<?php if ($log[$photoField]): ?>
                                             <div class="col-md-3 mb-3">
                                                 <strong><?php echo $photoName; ?>:</strong><br>
                                                 <img src="<?php echo htmlspecialchars($log[$photoField]); ?>" 
                                                      class="photo-preview img-fluid" alt="<?php echo $photoName; ?>">
                                             </div>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
+<?php endif; ?>
+<?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endif; ?>
+<?php endif; ?>
 
                     <!-- Fuelman Data -->
-                    <?php if ($log['fm_created_at']): ?>
+<?php if ($log['fm_created_at']): ?>
                         <div class="card mb-3">
                             <div class="card-header">
                                 <h5><i class="bi bi-droplet"></i> Data Fuelman</h5>
@@ -449,40 +448,40 @@ require_once 'includes/header.php';
                                 <!-- Fuelman Photos -->
                                 <h6>Foto Segel Awal:</h6>
                                 <div class="row">
-                                    <?php for($i = 1; $i <= 4; $i++): ?>
-                                        <?php if ($log["fm_segel_photo_awal_$i"]): ?>
+<?php for($i = 1; $i <= 4; $i++): ?>
+<?php if ($log["fm_segel_photo_awal_$i"]): ?>
                                             <div class="col-md-3 mb-2">
                                                 <strong>Segel Awal <?php echo $i; ?>:</strong><br>
                                                 <img src="<?php echo htmlspecialchars($log["fm_segel_photo_awal_$i"]); ?>" 
                                                      class="photo-preview img-fluid" alt="Segel Awal <?php echo $i; ?>">
                                             </div>
-                                        <?php endif; ?>
-                                    <?php endfor; ?>
+<?php endif; ?>
+<?php endfor; ?>
                                 </div>
                                 
                                 <h6>Foto Akhir & Kejernihan:</h6>
                                 <div class="row">
-                                    <?php for($i = 1; $i <= 4; $i++): ?>
-                                        <?php if ($log["fm_photo_akhir_$i"]): ?>
+<?php for($i = 1; $i <= 4; $i++): ?>
+<?php if ($log["fm_photo_akhir_$i"]): ?>
                                             <div class="col-md-3 mb-2">
                                                 <strong>Tanki Kosong <?php echo $i; ?>:</strong><br>
                                                 <img src="<?php echo htmlspecialchars($log["fm_photo_akhir_$i"]); ?>" 
                                                      class="photo-preview img-fluid" alt="Tanki Kosong <?php echo $i; ?>">
                                             </div>
-                                        <?php endif; ?>
-                                    <?php endfor; ?>
+<?php endif; ?>
+<?php endfor; ?>
                                     
-                                    <?php if ($log['fm_photo_kejernihan']): ?>
+<?php if ($log['fm_photo_kejernihan']): ?>
                                         <div class="col-md-3 mb-2">
                                             <strong>Kejernihan BBM:</strong><br>
                                             <img src="<?php echo htmlspecialchars($log['fm_photo_kejernihan']); ?>" 
                                                  class="photo-preview img-fluid" alt="Kejernihan BBM">
                                         </div>
-                                    <?php endif; ?>
+<?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    <?php endif; ?>
+<?php endif; ?>
 
                     <!-- Action Buttons -->
                     <div class="row">
@@ -492,40 +491,40 @@ require_once 'includes/header.php';
                                     <i class="bi bi-arrow-left"></i> Kembali ke List
                                 </a>
                                 
-                                <?php if (hasRole('admin')): ?>
+<?php if (hasRole('admin')): ?>
                                     <a href="edit.php?id=<?php echo $log['id']; ?>" class="btn btn-warning">
                                         <i class="bi bi-pencil"></i> Edit
                                     </a>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
                                 <!-- Role-specific action buttons -->
-                                <?php if (hasRole('pengawas_lapangan') && $log['status_progress'] == 'waiting_pengawas'): ?>
+<?php if (hasRole('pengawas_lapangan') && $log['status_progress'] == 'waiting_pengawas'): ?>
                                     <a href="lapangan/form.php?id=<?php echo $log['id']; ?>" class="btn btn-primary">
                                         <i class="bi bi-clipboard-check"></i> Input Data Lapangan
                                     </a>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php if (hasRole('driver') && $log['status_progress'] == 'waiting_driver'): ?>
+<?php if (hasRole('driver') && $log['status_progress'] == 'waiting_driver'): ?>
                                     <a href="driver/form.php?id=<?php echo $log['id']; ?>" class="btn btn-primary">
                                         <i class="bi bi-truck"></i> Input Data Driver
                                     </a>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php if (hasRole('pengawas_depo') && $log['status_progress'] == 'waiting_depo'): ?>
+<?php if (hasRole('pengawas_depo') && $log['status_progress'] == 'waiting_depo'): ?>
                                     <a href="depo/form.php?id=<?php echo $log['id']; ?>" class="btn btn-primary">
                                         <i class="bi bi-building"></i> Input Data Depo
                                     </a>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php if (hasRole('fuelman') && $log['status_progress'] == 'waiting_fuelman'): ?>
+<?php if (hasRole('fuelman') && $log['status_progress'] == 'waiting_fuelman'): ?>
                                     <a href="fuelman/form.php?id=<?php echo $log['id']; ?>" class="btn btn-primary">
                                         <i class="bi bi-droplet"></i> Input Data Fuelman
                                     </a>
-                                <?php endif; ?>
+<?php endif; ?>
                             </div>
                         </div>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>

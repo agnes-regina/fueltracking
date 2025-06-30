@@ -79,19 +79,19 @@ require_once '../includes/header.php'; ?>
                 </h4>
             </div>
             <div class="card-body">
-                <?php if ($success): ?>
+<?php if ($success): ?>
                     <div class="alert alert-success">
                         <i class="bi bi-check-circle"></i> <?php echo $success; ?>
                         <hr>
                         <a href="../logs.php" class="btn btn-outline-success">Lihat Semua Data</a>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
-                <?php if ($error): ?>
+<?php if ($error): ?>
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle"></i> <?php echo $error; ?>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
                 <form method="POST" id="createForm">
                     <div class="row">
@@ -110,12 +110,12 @@ require_once '../includes/header.php'; ?>
                             </label>
                             <select class="form-control" id="pt_driver_id" name="pt_driver_id" required>
                                 <option value="">-- Pilih Driver --</option>
-                                <?php foreach ($drivers as $driver): ?>
+<?php foreach ($drivers as $driver): ?>
                                     <option value="<?= $driver['id'] ?>"
                                         <?= (($_POST['pt_driver_id'] ?? '') == $driver['id']) ? 'selected' : '' ?>>
                                         <?= $driver['id'] . ' - ' . htmlspecialchars($driver['full_name']) ?>
                                     </option>
-                                <?php endforeach; ?>
+<?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -147,7 +147,7 @@ require_once '../includes/header.php'; ?>
                 <h5 class="mb-0"><i class="bi bi-clock-history"></i> Pengiriman Terbaru Anda</h5>
             </div>
             <div class="card-body">
-                <?php
+<?php
                 try {
                     $stmt = $pdo->prepare("
                         SELECT * FROM fuel_logs 
@@ -160,7 +160,7 @@ require_once '../includes/header.php'; ?>
                     
                     if (empty($recentLogs)): ?>
                         <p class="text-muted text-center">Belum ada pengiriman yang dibuat</p>
-                    <?php else: ?>
+<?php else: ?>
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <thead>
@@ -173,23 +173,23 @@ require_once '../includes/header.php'; ?>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($recentLogs as $log): ?>
+<?php foreach ($recentLogs as $log): ?>
                                         <tr>
                                             <td>#<?php echo $log['id']; ?></td>
                                             <td><?php echo htmlspecialchars($log['nomor_unit']); ?></td>
                                             <td><?php echo htmlspecialchars($log['driver_name']); ?></td>
                                             <td>
                                                 <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-                                                    <?php echo $statusLabels[$log['status_progress']]; ?>
+<?php echo $statusLabels[$log['status_progress']]; ?>
                                                 </span>
                                             </td>
                                             <td><?php echo date('d/m/Y H:i', strtotime($log['created_at'])); ?></td>
                                         </tr>
-                                    <?php endforeach; ?>
+<?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
-                    <?php endif;
+<?php endif;
                 } catch(PDOException $e) {
                     echo '<p class="text-danger">Error loading recent data</p>';
                 }

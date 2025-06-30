@@ -1,4 +1,3 @@
-
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -128,16 +127,16 @@ require_once '../includes/header.php';
                 </h4>
             </div>
             <div class="card-body">
-                <?php if ($success): ?>
+<?php if ($success): ?>
                     <div class="alert alert-success">
                         <i class="bi bi-check-circle"></i> <?php echo $success; ?>
                         <hr class="my-3">
                         <div class="d-grid gap-2">
-                            <?php if ($form == '1'): ?>
+<?php if ($form == '1'): ?>
                                 <a href="form.php?id=<?php echo $id; ?>&form=2" class="btn btn-primary">
                                     <i class="bi bi-arrow-right"></i> Lanjut ke FORM 2
                                 </a>
-                            <?php endif; ?>
+<?php endif; ?>
                             <a href="list.php" class="btn btn-outline-success">
                                 <i class="bi bi-list"></i> Kembali ke List
                             </a>
@@ -146,15 +145,15 @@ require_once '../includes/header.php';
                             </a>
                         </div>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
-                <?php if ($error): ?>
+<?php if ($error): ?>
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle"></i> <?php echo $error; ?>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
-                <?php if (!$error && !$success): ?>
+<?php if (!$error && !$success): ?>
                     <!-- Progress Indicator -->
                     <div class="progress-indicator">
                         <div class="progress-step <?php echo $form == '1' ? 'current' : 'active'; ?>">
@@ -183,7 +182,7 @@ require_once '../includes/header.php';
                                     </div>
                                     <p><strong>Status:</strong><br>
                                         <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-                                            <?php echo $statusLabels[$log['status_progress']]; ?>
+<?php echo $statusLabels[$log['status_progress']]; ?>
                                         </span>
                                     </p>
                                 </div>
@@ -207,7 +206,7 @@ require_once '../includes/header.php';
                         </div>
                     </div>
                     
-                    <?php if ($form == '1'): ?>
+<?php if ($form == '1'): ?>
                         <!-- FORM 1: Loading Information -->
                         <form method="POST" enctype="multipart/form-data" id="driverForm1">
                             <div class="card mb-4">
@@ -267,7 +266,7 @@ require_once '../includes/header.php';
                                     
                                     <!-- Segel Photos (Driver Version) -->
                                     <h6 class="mt-4 mb-3"><i class="bi bi-camera"></i> Foto Segel (Versi Driver)</h6>
-                                    <?php for($i = 1; $i <= 4; $i++): ?>
+<?php for($i = 1; $i <= 4; $i++): ?>
                                         <div class="mb-3">
                                             <label for="dr_segel_photo_<?php echo $i; ?>" class="form-label">
                                                 <i class="bi bi-shield"></i> Foto Segel <?php echo $i; ?>
@@ -277,7 +276,7 @@ require_once '../includes/header.php';
                                                    onchange="previewImage(this, 'preview_dr_segel_<?php echo $i; ?>')">
                                             <img id="preview_dr_segel_<?php echo $i; ?>" class="photo-preview" style="display: none;">
                                         </div>
-                                    <?php endfor; ?>
+<?php endfor; ?>
                                     
                                     <!-- Documents (Driver Version) -->
                                     <h6 class="mt-4 mb-3"><i class="bi bi-file-earmark-text"></i> Dokumen (Versi Driver)</h6>
@@ -324,7 +323,7 @@ require_once '../includes/header.php';
                             </div>
                         </form>
                     
-                    <?php else: ?>
+<?php else: ?>
                         <!-- FORM 2: Unloading Information -->
                         <form method="POST" enctype="multipart/form-data" id="driverForm2">
                             <div class="card mb-4">
@@ -387,8 +386,8 @@ require_once '../includes/header.php';
                                 </a>
                             </div>
                         </form>
-                    <?php endif; ?>
-                <?php endif; ?>
+<?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>

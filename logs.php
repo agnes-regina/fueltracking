@@ -1,4 +1,3 @@
-
 <?php
 require_once 'config/db.php';
 requireLogin();
@@ -94,11 +93,11 @@ require_once 'includes/header.php';
                         <label class="form-label">Status</label>
                         <select name="status" class="form-select">
                             <option value="">Semua Status</option>
-                            <?php foreach ($statusLabels as $value => $label): ?>
+<?php foreach ($statusLabels as $value => $label): ?>
                                 <option value="<?php echo $value; ?>" <?php echo $statusFilter === $value ? 'selected' : ''; ?>>
-                                    <?php echo $label; ?>
+<?php echo $label; ?>
                                 </option>
-                            <?php endforeach; ?>
+<?php endforeach; ?>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -132,13 +131,13 @@ require_once 'includes/header.php';
                 </div>
                 
                 <!-- Data Table -->
-                <?php if (isset($error)): ?>
+<?php if (isset($error)): ?>
                     <div class="alert alert-danger"><?php echo $error; ?></div>
-                <?php elseif (empty($logs)): ?>
+<?php elseif (empty($logs)): ?>
                     <div class="alert alert-warning text-center">
                         <i class="bi bi-exclamation-triangle"></i> Tidak ada data pengiriman ditemukan
                     </div>
-                <?php else: ?>
+<?php else: ?>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="table-dark">
@@ -153,7 +152,7 @@ require_once 'includes/header.php';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($logs as $log): ?>
+<?php foreach ($logs as $log): ?>
                                     <tr>
                                         <td><strong>#<?php echo $log['id']; ?></strong></td>
                                         <td>
@@ -162,12 +161,12 @@ require_once 'includes/header.php';
                                         <td><?php echo htmlspecialchars($log['driver_name']); ?></td>
                                         <td>
                                             <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-                                                <?php echo $statusLabels[$log['status_progress']]; ?>
+<?php echo $statusLabels[$log['status_progress']]; ?>
                                             </span>
                                         </td>
                                         <td>
                                             <div class="progress" style="height: 20px;">
-                                                <?php
+<?php
                                                 $progressPercentage = 0;
                                                 switch($log['status_progress']) {
                                                     case 'waiting_pengawas': $progressPercentage = 20; break;
@@ -179,14 +178,14 @@ require_once 'includes/header.php';
                                                 ?>
                                                 <div class="progress-bar bg-<?php echo $progressPercentage == 100 ? 'success' : 'primary'; ?>" 
                                                      style="width: <?php echo $progressPercentage; ?>%">
-                                                    <?php echo $progressPercentage; ?>%
+<?php echo $progressPercentage; ?>%
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <small>
-                                                <?php echo date('d/m/Y', strtotime($log['created_at'])); ?><br>
-                                                <?php echo date('H:i', strtotime($log['created_at'])); ?>
+<?php echo date('d/m/Y', strtotime($log['created_at'])); ?><br>
+<?php echo date('H:i', strtotime($log['created_at'])); ?>
                                             </small>
                                         </td>
                                         <td>
@@ -195,51 +194,51 @@ require_once 'includes/header.php';
                                                    class="btn btn-outline-primary" data-bs-toggle="tooltip" title="Detail">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
-                                                <?php if (hasRole('admin')): ?>
+<?php if (hasRole('admin')): ?>
                                                     <a href="edit.php?id=<?php echo $log['id']; ?>" 
                                                        class="btn btn-outline-warning" data-bs-toggle="tooltip" title="Edit">
                                                         <i class="bi bi-pencil"></i>
                                                     </a>
-                                                <?php endif; ?>
+<?php endif; ?>
                                             </div>
                                         </td>
                                     </tr>
-                                <?php endforeach; ?>
+<?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
                     
                     <!-- Pagination -->
-                    <?php if ($totalPages > 1): ?>
+<?php if ($totalPages > 1): ?>
                         <nav class="mt-4">
                             <ul class="pagination justify-content-center">
-                                <?php if ($page > 1): ?>
+<?php if ($page > 1): ?>
                                     <li class="page-item">
                                         <a class="page-link" href="?page=<?php echo $page - 1; ?>&status=<?php echo $statusFilter; ?>&date=<?php echo $dateFilter; ?>&unit=<?php echo $unitFilter; ?>">
                                             <i class="bi bi-chevron-left"></i>
                                         </a>
                                     </li>
-                                <?php endif; ?>
+<?php endif; ?>
                                 
-                                <?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
+<?php for ($i = max(1, $page - 2); $i <= min($totalPages, $page + 2); $i++): ?>
                                     <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
                                         <a class="page-link" href="?page=<?php echo $i; ?>&status=<?php echo $statusFilter; ?>&date=<?php echo $dateFilter; ?>&unit=<?php echo $unitFilter; ?>">
-                                            <?php echo $i; ?>
+<?php echo $i; ?>
                                         </a>
                                     </li>
-                                <?php endfor; ?>
+<?php endfor; ?>
                                 
-                                <?php if ($page < $totalPages): ?>
+<?php if ($page < $totalPages): ?>
                                     <li class="page-item">
                                         <a class="page-link" href="?page=<?php echo $page + 1; ?>&status=<?php echo $statusFilter; ?>&date=<?php echo $dateFilter; ?>&unit=<?php echo $unitFilter; ?>">
                                             <i class="bi bi-chevron-right"></i>
                                         </a>
                                     </li>
-                                <?php endif; ?>
+<?php endif; ?>
                             </ul>
                         </nav>
-                    <?php endif; ?>
-                <?php endif; ?>
+<?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>

@@ -28,7 +28,7 @@ include __DIR__ . '/includes/header.php';
                     </h5>
                 </div>
                 <div class="card-body">
-                    <?php if ($user): ?>
+<?php if ($user): ?>
                         <div class="d-flex align-items-center mb-4">
                             <div class="bg-secondary text-white rounded-circle d-flex justify-content-center align-items-center" style="width: 60px; height: 60px;">
                                 <i class="bi bi-person-fill fs-3"></i>
@@ -56,9 +56,9 @@ include __DIR__ . '/includes/header.php';
                                 <strong>🔄 Update Terakhir:</strong> <?= htmlspecialchars($user['updated_at']) ?>
                             </li>
                         </ul>
-                    <?php else: ?>
+<?php else: ?>
                         <div class="alert alert-danger mt-3">Data pengguna tidak ditemukan.</div>
-                    <?php endif; ?>
+<?php endif; ?>
                 </div>
             </div>
         </div>

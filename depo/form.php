@@ -1,4 +1,3 @@
-
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -132,7 +131,7 @@ require_once '../includes/header.php';
                 </h4>
             </div>
             <div class="card-body">
-                <?php if ($success): ?>
+<?php if ($success): ?>
                     <div class="alert alert-success">
                         <i class="bi bi-check-circle"></i> <?php echo $success; ?>
                         <hr class="my-3">
@@ -145,15 +144,15 @@ require_once '../includes/header.php';
                             </a>
                         </div>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
-                <?php if ($error): ?>
+<?php if ($error): ?>
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle"></i> <?php echo $error; ?>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
                 
-                <?php if (!$error && !$success): ?>
+<?php if (!$error && !$success): ?>
                     <!-- Basic Info Display -->
                     <div class="row mb-4">
                         <div class="col-12">
@@ -170,20 +169,20 @@ require_once '../includes/header.php';
                                     </div>
                                     <p><strong>Status:</strong><br>
                                         <span class="status-badge status-<?php echo $log['status_progress']; ?>">
-                                            <?php echo $statusLabels[$log['status_progress']]; ?>
+<?php echo $statusLabels[$log['status_progress']]; ?>
                                         </span>
                                     </p>
                                     
-                                    <?php if ($log['dr_waktu_keluar_pertamina']): ?>
+<?php if ($log['dr_waktu_keluar_pertamina']): ?>
                                         <div class="alert <?php echo $duration_hours > 7 ? 'alert-warning' : 'alert-info'; ?> mt-3">
                                             <i class="bi bi-clock"></i> 
                                             <strong>Waktu Keluar Pertamina:</strong> <?php echo date('d/m/Y H:i', strtotime($log['dr_waktu_keluar_pertamina'])); ?><br>
                                             <strong>Durasi Perjalanan:</strong> ~<?php echo $duration_hours; ?> jam
-                                            <?php if ($duration_hours > 7): ?>
+<?php if ($duration_hours > 7): ?>
                                                 <br><span class="text-danger"><strong>⚠️ Melebihi batas 7 jam!</strong></span>
-                                            <?php endif; ?>
+<?php endif; ?>
                                         </div>
-                                    <?php endif; ?>
+<?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +226,7 @@ require_once '../includes/header.php';
                                     </label>
                                     <textarea class="form-control" id="pd_alasan_lebih_7jam" name="pd_alasan_lebih_7jam" 
                                               rows="4" placeholder="Jelaskan alasan mengapa perjalanan memakan waktu lebih dari 7 jam..."
-                                              <?php echo $requires_reason ? 'required' : ''; ?>></textarea>
+<?php echo $requires_reason ? 'required' : ''; ?>></textarea>
                                     <small class="form-text text-muted">
                                         Field ini wajib diisi jika durasi perjalanan melebihi 7 jam
                                     </small>
@@ -241,7 +240,7 @@ require_once '../includes/header.php';
                                 <h5><i class="bi bi-camera"></i> Foto Kondisi Segel</h5>
                             </div>
                             <div class="card-body">
-                                <?php for($i = 1; $i <= 4; $i++): ?>
+<?php for($i = 1; $i <= 4; $i++): ?>
                                     <div class="mb-3">
                                         <label for="pd_foto_kondisi_<?php echo $i; ?>" class="form-label">
                                             <i class="bi bi-shield-check"></i> Foto Kondisi Segel <?php echo $i; ?>
@@ -251,7 +250,7 @@ require_once '../includes/header.php';
                                                onchange="previewImage(this, 'preview_kondisi_<?php echo $i; ?>')">
                                         <img id="preview_kondisi_<?php echo $i; ?>" class="photo-preview" style="display: none;">
                                     </div>
-                                <?php endfor; ?>
+<?php endfor; ?>
                             </div>
                         </div>
                         
@@ -312,7 +311,7 @@ require_once '../includes/header.php';
                             </a>
                         </div>
                     </form>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>
