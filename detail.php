@@ -1,3 +1,4 @@
+
 <?php
 require_once 'config/db.php';
 requireLogin();
@@ -759,6 +760,64 @@ require_once 'includes/header.php';
                             </div>
                         <?php endif; ?>
                     </div>
+
+                    <!-- Foto Segel Awal -->
+                    <h6 class="mt-4 mb-3">Foto Segel Awal</h6>
+                    <div class="photo-grid">
+                        <?php for($i = 1; $i <= 4; $i++): ?>
+                            <?php if (!empty($log["fm_segel_photo_awal_$i"])): ?>
+                                <div class="photo-item">
+                                    <img src="<?php echo htmlspecialchars($log["fm_segel_photo_awal_$i"]); ?>" 
+                                         class="photo-preview" 
+                                         onclick="showImageModal(this.src)">
+                                    <div class="photo-label">Segel Awal <?php echo $i; ?></div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </div>
+
+                    <!-- Foto Segel Akhir -->
+                    <h6 class="mt-4 mb-3">Foto Segel Akhir</h6>
+                    <div class="photo-grid">
+                        <?php for($i = 1; $i <= 4; $i++): ?>
+                            <?php if (!empty($log["fm_photo_akhir_$i"])): ?>
+                                <div class="photo-item">
+                                    <img src="<?php echo htmlspecialchars($log["fm_photo_akhir_$i"]); ?>" 
+                                         class="photo-preview" 
+                                         onclick="showImageModal(this.src)">
+                                    <div class="photo-label">Segel Akhir <?php echo $i; ?></div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </div>
+
+                    <!-- Foto Tanki Kosong -->
+                    <h6 class="mt-4 mb-3">Foto Tanki Kosong</h6>
+                    <div class="photo-grid">
+                        <?php for($i = 1; $i <= 4; $i++): ?>
+                            <?php if (!empty($log["fm_photo_tanki_kosong_$i"])): ?>
+                                <div class="photo-item">
+                                    <img src="<?php echo htmlspecialchars($log["fm_photo_tanki_kosong_$i"]); ?>" 
+                                         class="photo-preview" 
+                                         onclick="showImageModal(this.src)">
+                                    <div class="photo-label">Tanki Kosong <?php echo $i; ?></div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </div>
+
+                    <!-- Foto Kejernihan -->
+                    <?php if (!empty($log['fm_photo_kejernihan'])): ?>
+                        <h6 class="mt-4 mb-3">Foto Kejernihan BBM</h6>
+                        <div class="photo-grid">
+                            <div class="photo-item">
+                                <img src="<?php echo htmlspecialchars($log['fm_photo_kejernihan']); ?>" 
+                                     class="photo-preview" 
+                                     onclick="showImageModal(this.src)">
+                                <div class="photo-label">Kejernihan BBM</div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endif; ?>
