@@ -1,3 +1,4 @@
+
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -88,17 +89,17 @@ require_once '../includes/header.php';
                 </h4>
             </div>
             <div class="card-body">
-<?php if ($success): ?>
+                <?php if ($success): ?>
                     <div class="alert alert-success">
                         <i class="bi bi-check-circle"></i> <?php echo $success; ?>
                     </div>
-<?php endif; ?>
+                <?php endif; ?>
                 
-<?php if ($error): ?>
+                <?php if ($error): ?>
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle"></i> <?php echo $error; ?>
                     </div>
-<?php endif; ?>
+                <?php endif; ?>
                 
                 <!-- Add User Button -->
                 <div class="mb-3">
@@ -108,11 +109,11 @@ require_once '../includes/header.php';
                 </div>
                 
                 <!-- Users Table -->
-<?php if (empty($users)): ?>
+                <?php if (empty($users)): ?>
                     <div class="alert alert-info text-center">
                         <i class="bi bi-info-circle"></i> Belum ada user
                     </div>
-<?php else: ?>
+                <?php else: ?>
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead class="table-dark">
@@ -128,27 +129,34 @@ require_once '../includes/header.php';
                                 </tr>
                             </thead>
                             <tbody>
-<?php foreach ($users as $user): ?>
+                                <?php foreach ($users as $user): ?>
                                     <tr>
                                         <td><?php echo $user['id']; ?></td>
                                         <td><strong><?php echo htmlspecialchars($user['username']); ?></strong></td>
                                         <td><?php echo htmlspecialchars($user['full_name']); ?></td>
                                         <td>
                                             <span class="badge bg-secondary">
-<?php echo $roleLabels[$user['role']] ?? $user['role']; ?>
+                                                <?php echo $roleLabels[$user['role']] ?? $user['role']; ?>
                                             </span>
                                         </td>
                                         <td><?php echo htmlspecialchars($user['email'] ?? '-'); ?></td>
                                         <td>
-<?php if ($user['is_active']): ?>
+                                            <?php if ($user['is_active']): ?>
                                                 <span class="badge bg-success">Aktif</span>
-<?php else: ?>
+                                            <?php else: ?>
                                                 <span class="badge bg-danger">Nonaktif</span>
-<?php endif; ?>
+                                            <?php endif; ?>
                                         </td>
                                         <td><?php echo date('d/m/Y', strtotime($user['created_at'])); ?></td>
                                         <td>
                                             <div class="btn-group btn-group-sm">
+                                                <!-- Edit User Button -->
+                                                <a href="edit_user.php?id=<?php echo $user['id']; ?>" 
+                                                   class="btn btn-outline-primary" 
+                                                   data-bs-toggle="tooltip" title="Edit User">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                
                                                 <!-- Toggle Status -->
                                                 <form method="POST" style="display: inline;">
                                                     <input type="hidden" name="action" value="toggle_status">
@@ -161,7 +169,7 @@ require_once '../includes/header.php';
                                                 </form>
                                                 
                                                 <!-- Delete User (except self) -->
-<?php if ($user['id'] != $_SESSION['user_id']): ?>
+                                                <?php if ($user['id'] != $_SESSION['user_id']): ?>
                                                     <form method="POST" style="display: inline;" 
                                                           onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?')">
                                                         <input type="hidden" name="action" value="delete">
@@ -171,15 +179,15 @@ require_once '../includes/header.php';
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </form>
-<?php endif; ?>
+                                                <?php endif; ?>
                                             </div>
                                         </td>
                                     </tr>
-<?php endforeach; ?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-<?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -213,9 +221,9 @@ require_once '../includes/header.php';
                         <label for="role" class="form-label">Role *</label>
                         <select class="form-select" id="role" name="role" required>
                             <option value="">Pilih Role</option>
-<?php foreach ($roleLabels as $roleValue => $roleLabel): ?>
+                            <?php foreach ($roleLabels as $roleValue => $roleLabel): ?>
                                 <option value="<?php echo $roleValue; ?>"><?php echo $roleLabel; ?></option>
-<?php endforeach; ?>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     
