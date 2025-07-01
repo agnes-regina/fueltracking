@@ -201,10 +201,10 @@ require_once '../includes/header.php';
                                     </label>
                                     <input type="datetime-local" class="form-control" id="pd_arrived_at" 
                                            name="pd_arrived_at" required>
-                                    <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
+                                    <!-- <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
                                             onclick="setCurrentTime('pd_arrived_at')">
                                         <i class="bi bi-clock"></i> Gunakan Waktu Sekarang
-                                    </button>
+                                    </button> -->
                                 </div>
                                 
                                 <div class="mb-3">
@@ -213,10 +213,10 @@ require_once '../includes/header.php';
                                     </label>
                                     <input type="datetime-local" class="form-control" id="pd_goto_msf" 
                                            name="pd_goto_msf" required>
-                                    <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
+                                    <!-- <button type="button" class="btn btn-outline-secondary mt-2 w-100" 
                                             onclick="setCurrentTime('pd_goto_msf')">
                                         <i class="bi bi-clock"></i> Gunakan Waktu Sekarang
-                                    </button>
+                                    </button> -->
                                 </div>
                                 
                                 <!-- 7 Hour Validation Field -->
@@ -296,7 +296,6 @@ require_once '../includes/header.php';
                             <h6><i class="bi bi-info-circle"></i> Informasi Penting:</h6>
                             <ul class="mb-0">
                                 <li>Semua foto dokumen (SIB, FTW, P2H) wajib diupload</li>
-                                <li>Foto kondisi segel opsional tapi disarankan untuk dokumentasi</li>
                                 <li>Jika perjalanan > 7 jam, wajib isi alasan</li>
                                 <li>Setelah submit, status akan berubah menjadi "Menunggu Fuelman"</li>
                             </ul>

@@ -148,6 +148,10 @@ $base_url = "/fueltracking/"; // Adjust this to your base URL
             background: linear-gradient(135deg, var(--info-color), #3b82f6); 
             color: white; 
         }
+        .status-driver_loading_done { 
+            background: linear-gradient(135deg, var(--info-color),rgb(255, 0, 111)); 
+            color: white; 
+        }
         .status-waiting_depo { 
             background: linear-gradient(135deg, var(--purple-color), #9333ea); 
             color: white; 

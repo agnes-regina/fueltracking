@@ -286,9 +286,9 @@ require_once 'includes/header.php';
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">&nbsp;</label><br>
-                                <button type="submit" class="btn btn-filter me-2">
+                                <!-- <button type="submit" class="btn btn-filter me-2">
                                     <i class="bi bi-search me-2"></i>Filter
-                                </button>
+                                </button> -->
                                 <a href="logs.php" class="btn btn-reset">
                                     <i class="bi bi-x-circle me-2"></i>Reset
                                 </a>
@@ -352,7 +352,8 @@ require_once 'includes/header.php';
                                                     $progressPercentage = 0;
                                                     switch($log['status_progress']) {
                                                         case 'waiting_pengawas': $progressPercentage = 20; break;
-                                                        case 'waiting_driver': $progressPercentage = 40; break;
+                                                        case 'waiting_driver': $progressPercentage = 35; break;
+                                                        case 'driver_loading_done': $progressPercentage = 45; break;
                                                         case 'waiting_depo': $progressPercentage = 60; break;
                                                         case 'waiting_fuelman': $progressPercentage = 80; break;
                                                         case 'done': $progressPercentage = 100; break;
@@ -440,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearTimeout(filterTimeout);
         filterTimeout = setTimeout(function() {
             document.getElementById('filterForm').submit();
-        }, 2000);
+        }, 500);
     }
     
     statusFilter.addEventListener('change', autoSubmit);

@@ -49,7 +49,12 @@ try {
             $myTasks = $pdo->query("SELECT COUNT(*) FROM fuel_logs WHERE status_progress = 'waiting_pengawas'")->fetchColumn();
             break;
         case 'driver':
-            $myTasks = $pdo->query("SELECT COUNT(*) FROM fuel_logs WHERE status_progress = 'waiting_driver' AND pt_driver_id = " . $_SESSION['user_id'])->fetchColumn();
+            $myTasks = $pdo->query("
+                SELECT COUNT(*) 
+                FROM fuel_logs 
+                WHERE status_progress IN ('waiting_driver', 'driver_loading_done') 
+                AND pt_driver_id = " . $pdo->quote($_SESSION['user_id'])
+            )->fetchColumn();
             break;
         case 'pengawas_depo':
             $myTasks = $pdo->query("SELECT COUNT(*) FROM fuel_logs WHERE status_progress = 'waiting_depo'")->fetchColumn();
@@ -80,7 +85,7 @@ require_once 'includes/header.php';
 }
 
 .hero-welcome {
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    background: linear-gradient(135deg,rgb(89, 0, 255) 0%,rgb(255, 0, 174) 50%,rgb(0, 255, 255) 100%);
     border-radius: 25px;
     padding: 2rem;
     margin-bottom: 2rem;

@@ -10,7 +10,7 @@ try {
         SELECT fl.*, u.full_name as creator_name 
         FROM fuel_logs fl 
         LEFT JOIN users u ON fl.pt_created_by = u.id 
-        WHERE fl.status_progress IN ('waiting_driver', 'waiting_depo', 'waiting_fuelman', 'done')
+        WHERE fl.status_progress IN ('driver_loading_done', 'waiting_driver', 'waiting_depo', 'waiting_fuelman', 'done')
         ORDER BY fl.created_at DESC
     ");
     $stmt->execute();
@@ -77,7 +77,10 @@ require_once '../includes/header.php';
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                                 
-<?php if ($log['status_progress'] == 'waiting_driver'): ?>
+<?php if (
+    isset($log['status_progress']) && 
+    in_array($log['status_progress'], ['waiting_driver', 'driver_loading_done'])
+): ?>
                                                     <a href="form.php?id=<?php echo $log['id']; ?>" 
                                                        class="btn btn-primary" data-bs-toggle="tooltip" title="Input Data">
                                                         <i class="bi bi-truck"></i>
