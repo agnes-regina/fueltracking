@@ -16,8 +16,10 @@ function openCameraModal(inputId, previewId) {
     navigator.mediaDevices.getUserMedia({ 
         video: { 
             facingMode: 'environment',
-            width: { ideal: 1920, max: 1920 },
-            height: { ideal: 1080, max: 1080 },
+            // width: { ideal: 1920, max: 1920 },
+            // height: { ideal: 1080, max: 1080 },
+            width: { ideal: 640 },
+            height: { ideal: 480 },
             aspectRatio: { ideal: 16/9 }
         } 
     })
@@ -52,12 +54,17 @@ function capturePhoto() {
         return;
     }
     
-    // Set canvas size to video size
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
+    // // Set canvas size to video size
+    // canvas.width = video.videoWidth;
+    // canvas.height = video.videoHeight;
     
-    // Draw video frame to canvas
-    context.drawImage(video, 0, 0);
+    // // Draw video frame to canvas
+    // context.drawImage(video, 0, 0);
+    
+
+    canvas.width = 640;
+    canvas.height = 480;
+    context.drawImage(video, 0, 0, 640, 480);
     
     // Convert to blob with high quality
     canvas.toBlob(function(blob) {
