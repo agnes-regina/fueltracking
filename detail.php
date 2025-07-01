@@ -823,9 +823,9 @@ require_once 'includes/header.php';
                     <h6 class="mt-4 mb-3">Foto Tanki Kosong</h6>
                     <div class="photo-grid">
                         <?php for($i = 1; $i <= 4; $i++): ?>
-                            <?php if (!empty($log["fm_photo_akhir$i"])): ?>
+                            <?php if (!empty($log["fm_photo_akhir_$i"])): ?>
                                 <div class="photo-item">
-                                    <img src="<?php echo htmlspecialchars($log["fm_photo_akhir$i"]); ?>" 
+                                    <img src="<?php echo htmlspecialchars($log["fm_photo_akhir_$i"]); ?>" 
                                          class="photo-preview" 
                                          onclick="showImageModal(this.src)">
                                     <div class="photo-label">Tanki Kosong <?php echo $i; ?></div>

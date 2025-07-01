@@ -121,6 +121,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$error) {
 require_once '../includes/header.php';
 ?>
 
+<style>
+/* Copy CSS dari lapangan/form.php, bisa disesuaikan jika perlu */
+.form-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 25px;
+    padding: 2rem;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+}
+.photo-upload-section {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 2px dashed #667eea;
+    transition: all 0.3s ease;
+}
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+.photo-item {
+    background: white;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #e2e8f0;
+}
+.camera-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    margin-top: 0.5rem;
+}
+.camera-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    color: white;
+}
+.photo-preview {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
+
 <div class="row justify-content-center">
     <div class="col-12">
         <div class="card">
@@ -235,58 +297,72 @@ require_once '../includes/header.php';
                         </div>
                         
                         <!-- Condition Photos -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5><i class="bi bi-camera"></i> Foto Kondisi Segel</h5>
-                            </div>
-                            <div class="card-body">
+                        <div class="photo-upload-section">
+                            <h3 class="section-title">
+                                <i class="bi bi-camera me-2"></i>Foto Kondisi Segel
+                            </h3>
+                            <div class="photo-grid">
 <?php for($i = 1; $i <= 4; $i++): ?>
-                                    <div class="mb-3">
-                                        <label for="pd_foto_kondisi_<?php echo $i; ?>" class="form-label">
-                                            <i class="bi bi-shield-check"></i> Foto Kondisi Segel <?php echo $i; ?>
-                                        </label>
-                                        <input type="file" class="form-control" id="pd_foto_kondisi_<?php echo $i; ?>" 
-                                               name="pd_foto_kondisi_<?php echo $i; ?>" accept="image/*"
-                                               onchange="previewImage(this, 'preview_kondisi_<?php echo $i; ?>')">
-                                        <img id="preview_kondisi_<?php echo $i; ?>" class="photo-preview" style="display: none;">
-                                    </div>
+                                <div class="photo-item">
+                                    <label for="pd_foto_kondisi_<?php echo $i; ?>" class="form-label fw-bold">
+                                        <i class="bi bi-shield-check"></i> Foto Kondisi Segel <?php echo $i; ?>
+                                    </label>
+                                    <input type="file" class="form-control" id="pd_foto_kondisi_<?php echo $i; ?>" 
+                                           name="pd_foto_kondisi_<?php echo $i; ?>" accept="image/*"
+                                           onchange="previewImage(this, 'preview_kondisi_<?php echo $i; ?>')">
+                                    <button type="button" class="btn camera-btn w-100"
+                                        onclick="openCameraModal('pd_foto_kondisi_<?php echo $i; ?>', 'preview_kondisi_<?php echo $i; ?>')">
+                                        <i class="bi bi-camera me-2"></i>Buka Kamera
+                                    </button>
+                                    <img id="preview_kondisi_<?php echo $i; ?>" class="photo-preview" style="display: none;">
+                                </div>
 <?php endfor; ?>
                             </div>
                         </div>
                         
                         <!-- Document Photos -->
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5><i class="bi bi-file-earmark-text"></i> Foto Dokumen Wajib</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3">
-                                    <label for="pd_foto_sib" class="form-label">
+                        <div class="photo-upload-section">
+                            <h3 class="section-title">
+                                <i class="bi bi-file-earmark-text me-2"></i>Foto Dokumen Wajib
+                            </h3>
+                            <div class="photo-grid">
+                                <div class="photo-item">
+                                    <label for="pd_foto_sib" class="form-label fw-bold">
                                         <i class="bi bi-file-text"></i> Foto SIB (Surat Izin Bongkar) *
                                     </label>
                                     <input type="file" class="form-control" id="pd_foto_sib" 
                                            name="pd_foto_sib" accept="image/*" required
                                            onchange="previewImage(this, 'preview_sib')">
+                                    <button type="button" class="btn camera-btn w-100"
+                                        onclick="openCameraModal('pd_foto_sib', 'preview_sib')">
+                                        <i class="bi bi-camera me-2"></i>Buka Kamera
+                                    </button>
                                     <img id="preview_sib" class="photo-preview" style="display: none;">
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="pd_foto_ftw" class="form-label">
+                                <div class="photo-item">
+                                    <label for="pd_foto_ftw" class="form-label fw-bold">
                                         <i class="bi bi-file-spreadsheet"></i> Foto FTW (Fuel Transfer Worksheet) *
                                     </label>
                                     <input type="file" class="form-control" id="pd_foto_ftw" 
                                            name="pd_foto_ftw" accept="image/*" required
                                            onchange="previewImage(this, 'preview_ftw')">
+                                    <button type="button" class="btn camera-btn w-100"
+                                        onclick="openCameraModal('pd_foto_ftw', 'preview_ftw')">
+                                        <i class="bi bi-camera me-2"></i>Buka Kamera
+                                    </button>
                                     <img id="preview_ftw" class="photo-preview" style="display: none;">
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="pd_foto_p2h" class="form-label">
+                                <div class="photo-item">
+                                    <label for="pd_foto_p2h" class="form-label fw-bold">
                                         <i class="bi bi-clipboard-check"></i> Foto P2H (Pemeriksaan 2 Harian) *
                                     </label>
                                     <input type="file" class="form-control" id="pd_foto_p2h" 
                                            name="pd_foto_p2h" accept="image/*" required
                                            onchange="previewImage(this, 'preview_p2h')">
+                                    <button type="button" class="btn camera-btn w-100"
+                                        onclick="openCameraModal('pd_foto_p2h', 'preview_p2h')">
+                                        <i class="bi bi-camera me-2"></i>Buka Kamera
+                                    </button>
                                     <img id="preview_p2h" class="photo-preview" style="display: none;">
                                 </div>
                             </div>
@@ -395,4 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php
+require_once '../includes/footer.php'; 
+require_once '../includes/camera.php';
+?>

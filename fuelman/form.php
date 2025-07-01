@@ -476,43 +476,38 @@ require_once '../includes/header.php';
                 <h3 class="section-title">
                     <i class="bi bi-clock-history me-2"></i>Informasi Unloading
                 </h3>
-                
-                <div class="row">
-                    <div class="col-md-4">
+
+                <div class="row g-3">
+                    <!-- Waktu Mulai -->
+                    <div class="col-md-6">
                         <div class="form-floating-modern">
-                            <input type="datetime-local" class="form-control" 
-                                   id="fm_unload_start" name="fm_unload_start" 
-                                   placeholder=" " required>
+                            <input type="datetime-local" class="form-control"
+                                id="fm_unload_start" name="fm_unload_start"
+                                placeholder=" " required>
                             <label for="fm_unload_start">
                                 <i class="bi bi-play-circle me-2"></i>Waktu Mulai Unloading
                             </label>
                         </div>
-                        <button type="button" class="btn camera-btn w-100 mt-2" 
-                                onclick="setCurrentTime('fm_unload_start')">
-                            <i class="bi bi-clock me-2"></i>Waktu Sekarang
-                        </button>
                     </div>
-                    
-                    <div class="col-md-4">
+
+                    <!-- Waktu Selesai -->
+                    <div class="col-md-6">
                         <div class="form-floating-modern">
-                            <input type="datetime-local" class="form-control" 
-                                   id="fm_unload_end" name="fm_unload_end" 
-                                   placeholder=" " required>
+                            <input type="datetime-local" class="form-control"
+                                id="fm_unload_end" name="fm_unload_end"
+                                placeholder=" " required>
                             <label for="fm_unload_end">
                                 <i class="bi bi-stop-circle me-2"></i>Waktu Selesai Unloading
                             </label>
                         </div>
-                        <button type="button" class="btn camera-btn w-100 mt-2" 
-                                onclick="setCurrentTime('fm_unload_end')">
-                            <i class="bi bi-clock me-2"></i>Waktu Sekarang
-                        </button>
                     </div>
-                    
-                    <div class="col-md-4">
+
+                    <!-- Lokasi Unloading -->
+                    <div class="col-md-12">
                         <div class="form-floating-modern">
-                            <input type="text" class="form-control" 
-                                   id="fm_location" name="fm_location" 
-                                   placeholder=" " required>
+                            <input type="text" class="form-control"
+                                id="fm_location" name="fm_location"
+                                placeholder=" " required>
                             <label for="fm_location">
                                 <i class="bi bi-geo-alt me-2"></i>Lokasi Unloading
                             </label>
@@ -524,6 +519,7 @@ require_once '../includes/header.php';
                 </div>
             </div>
 
+
             <!-- Flowmeter Information -->
             <div class="form-card">
                 <h3 class="section-title">
@@ -531,12 +527,12 @@ require_once '../includes/header.php';
                 </h3>
                 
                 <div class="row">
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="form-floating-modern">
                             <input type="text" class="form-control" 
                                    id="fm_flowmeter" name="fm_flowmeter" 
                                    placeholder=" " required>
-                            <label for="fm_flowmeter">Flowmeter</label>
+                            <label for="fm_flowmeter">Jenis Flowmeter</label>
                         </div>
                     </div>
                     
@@ -547,8 +543,29 @@ require_once '../includes/header.php';
                                    placeholder=" ">
                             <label for="fm_serial">Serial Number</label>
                         </div>
+                    </div> -->
+                    <div class="col-md-4">
+                        <div class="form-floating-modern">
+                            <select class="form-select" id="fm_flowmeter" name="fm_flowmeter" required>
+                                <option selected disabled value="">Pilih Jenis Flowmeter</option>
+                                <option>Flow Meter Line 1</option>
+                                <option>Flow Meter Line 2</option>
+                            </select>
+                            <label for="fm_flowmeter"></label>
+                        </div>
                     </div>
-                    
+
+                    <div class="col-md-4">
+                        <div class="form-floating-modern">
+                            <select class="form-select" id="fm_serial" name="fm_serial" required>
+                                <option selected disabled value="">Pilih Serial Number</option>
+                                <option>SN1-xxxxxx</option>
+                                <option>SN2-xxxxxx</option>
+                            </select>
+                            <label for="fm_serial"></label>
+                        </div>
+                    </div>
+
                     <div class="col-md-4">
                         <div class="form-floating-modern">
                             <input type="number" class="form-control" 
@@ -679,12 +696,12 @@ require_once '../includes/header.php';
                                 </label>
                                 <input type="file" class="form-control" 
                                        id="fm_photo_akhir_<?php echo $i; ?>" name="fm_photo_akhir_<?php echo $i; ?>" 
-                                       accept="image/*" onchange="previewImage(this, 'preview_tanki_kosong_<?php echo $i; ?>')">
+                                       accept="image/*" onchange="previewImage(this, 'preview_photo_akhir_<?php echo $i; ?>')">
                                 <button type="button" class="btn camera-btn w-100 mt-2" 
-                                        onclick="openCameraModal('fm_photo_akhir_<?php echo $i; ?>', 'preview_tanki_kosong_<?php echo $i; ?>')">
+                                        onclick="openCameraModal('fm_photo_akhir_<?php echo $i; ?>', 'preview_photo_akhir_<?php echo $i; ?>')">
                                     <i class="bi bi-camera me-2"></i>Buka Kamera
                                 </button>
-                                <img id="preview_tanki_kosong_<?php echo $i; ?>" class="photo-preview" style="display: none;">
+                                <img id="preview_photo_akhir_<?php echo $i; ?>" class="photo-preview" style="display: none;">
                             </div>
                         </div>
                     <?php endfor; ?>
