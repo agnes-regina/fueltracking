@@ -30,7 +30,7 @@ if ($statusFilter && $statusFilter !== 'all') {
 }
 
 if ($dateFilter) {
-    $whereConditions[] = "DATE(created_at) = ?";
+    $whereConditions[] = "DATE(fl.created_at) = ?";
     $params[] = $dateFilter;
 }
 
@@ -49,7 +49,9 @@ $error = '';
 
 try {
     // Get total count
-    $countSql = "SELECT COUNT(*) FROM fuel_logs $whereClause";
+    // $countSql = "SELECT COUNT(*) FROM fuel_logs $whereClause";
+    $countSql = "SELECT COUNT(*) FROM fuel_logs AS fl $whereClause";
+
     $countStmt = $pdo->prepare($countSql);
     $countStmt->execute($params);
     $totalRecords = $countStmt->fetchColumn();
