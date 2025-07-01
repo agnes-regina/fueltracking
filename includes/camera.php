@@ -1,4 +1,3 @@
-
 <script>
 let currentCameraInput = null;
 let currentCameraPreview = null;
