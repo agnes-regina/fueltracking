@@ -1,7 +1,7 @@
-
 <?php
 $base_url = "/fueltracking/"; // Adjust this to your base URL
 //$base_url = "/"; // Adjust this to your base URL
+date_default_timezone_set('Asia/Jakarta');
 require_once 'config/db.php';
 
 $pageTitle = 'Dashboard - Fuel Transport Tracking System';
