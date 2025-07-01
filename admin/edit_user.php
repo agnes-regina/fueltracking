@@ -1,5 +1,5 @@
-
 <?php
+date_default_timezone_set('Asia/Jakarta');
 require_once '../config/db.php';
 requireLogin();
 requireRole('admin');
@@ -136,7 +136,7 @@ require_once '../includes/header.php';
                                             <p><strong>Dibuat:</strong><br><?php echo date('d/m/Y H:i', strtotime($user['created_at'])); ?></p>
                                         </div>
                                         <div class="col-6">
-                                            <p><strong>Login Terakhir:</strong><br><?php echo $user['last_login'] ? date('d/m/Y H:i', strtotime($user['last_login'])) : 'Belum pernah'; ?></p>
+                                            <p><strong>Login Terakhir:</strong><br><?php echo date('d/m/Y H:i'); ?></p>
                                         </div>
                                     </div>
                                 </div>
