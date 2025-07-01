@@ -615,21 +615,6 @@ require_once 'includes/header.php';
                             </div>
                         </div>
                     <?php endif; ?>
-
-                    <!-- Driver Photos -->
-                    <h6 class="mt-4 mb-3">Foto Segel (Versi Driver)</h6>
-                    <div class="photo-grid">
-                        <?php for($i = 1; $i <= 4; $i++): ?>
-                            <?php if (!empty($log["dr_segel_photo_$i"])): ?>
-                                <div class="photo-item">
-                                    <img src="<?php echo htmlspecialchars($log["dr_segel_photo_$i"]); ?>" 
-                                         class="photo-preview" 
-                                         onclick="showImageModal(this.src)">
-                                    <div class="photo-label">Segel <?php echo $i; ?></div>
-                                </div>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                    </div>
                 </div>
             </div>
         <?php endif; ?>
