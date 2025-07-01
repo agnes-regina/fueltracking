@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$error) {
             'dr_loading_start' => $_POST['dr_loading_start'] ?? '',
             'dr_loading_end' => $_POST['dr_loading_end'] ?? '',
             'dr_waktu_keluar_pertamina' => $_POST['dr_waktu_keluar_pertamina'] ?? '',
+            'dr_loading_location' => $_POST['dr_loading_location'] ?? '',
         ];
         
         try {
@@ -469,8 +470,21 @@ require_once '../includes/header.php';
                             </label>
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="form-floating-modern">
+                            <input type="text" class="form-control" 
+                                   id="dr_loading_location" name="dr_loading_location" 
+                                   placeholder=" ">
+                            <label for="dr_loading_location">
+                                <i class="bi bi-geo-alt me-2"></i>Lokasi Loading (GPS)
+                            </label>
+                        </div>
+                        <button type="button" class="btn camera-btn w-100 mt-2" onclick="getLocation0()">
+                            <i class="bi bi-geo-alt me-2"></i>Ambil Lokasi GPS
+                        </button>
+                    </div>
                 </div>
-                
+                <br>
                 <div class="text-center">
                     <button type="submit" class="btn btn-modern">
                         <i class="bi bi-save me-2"></i>Simpan Data Loading
@@ -512,6 +526,13 @@ require_once '../includes/header.php';
                         <input type="datetime-local" class="form-control" 
                                value="<?php echo $log['dr_waktu_keluar_pertamina']; ?>" readonly>
                         <label>Waktu Keluar Pertamina</label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-floating-modern">
+                        <input type="text" class="form-control" 
+                               value="<?php echo htmlspecialchars($log['dr_loading_location']); ?>" readonly>
+                        <label>Lokasi Loading</label>
                     </div>
                 </div>
             </div>
@@ -565,7 +586,7 @@ require_once '../includes/header.php';
                         </button>
                     </div>
                 </div>
-                
+                <br>
                 <div class="text-center">
                     <button type="submit" class="btn btn-modern">
                         <i class="bi bi-save me-2"></i>Simpan Data Unloading
@@ -625,6 +646,20 @@ require_once '../includes/header.php';
 </div>
 
 <script>
+function getLocation0() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            document.getElementById('dr_loading_location').value = lat + ',' + lng;
+        }, function(error) {
+            alert('Error getting location: ' + error.message);
+        });
+    } else {
+        alert('Geolocation is not supported by this browser.');
+    }
+}
+
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {

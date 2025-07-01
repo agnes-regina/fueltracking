@@ -95,6 +95,7 @@ function uploadFile($file, $allowedTypes = ['jpg', 'jpeg', 'png', 'pdf']) {
 $statusLabels = [
     'waiting_pengawas' => 'Menunggu Pengawas Lapangan',
     'waiting_driver' => 'Menunggu Driver',
+    'driver_loading_done' => 'Driver Selesai Loading',
     'waiting_depo' => 'Menunggu Pengawas Depo',
     'waiting_fuelman' => 'Menunggu Fuelman',
     'done' => 'Selesai'

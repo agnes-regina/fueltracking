@@ -1,4 +1,3 @@
-
 <?php
 require_once '../config/db.php';
 requireLogin();
@@ -455,10 +454,22 @@ require_once '../includes/header.php';
     </div>
 
     <?php if ($success): ?>
-        <div class="alert alert-success-modern">
+        <div class="alert alert-success-modern text-center" id="successAlert">
             <i class="bi bi-check-circle-fill fs-4 me-2"></i>
             <strong>Berhasil!</strong> <?php echo $success; ?>
+            <div class="mt-4">
+                <a href="list.php" class="btn btn-secondary-modern">
+                    <i class="bi bi-arrow-left me-2"></i>Kembali
+                </a>
+            </div>
         </div>
+        <script>
+        // Sembunyikan form setelah submit sukses
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('loadingForm');
+            if (form) form.style.display = 'none';
+        });
+        </script>
     <?php endif; ?>
     
     <?php if ($error): ?>
@@ -468,7 +479,7 @@ require_once '../includes/header.php';
         </div>
     <?php endif; ?>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" id="loadingForm">
         <!-- Loading Information -->
         <div class="form-card">
             <h3 class="section-title">

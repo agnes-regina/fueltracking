@@ -584,6 +584,19 @@ require_once 'includes/header.php';
                                 <div class="data-value"><?php echo $log['dr_waktu_keluar_pertamina'] ? date('d/m/Y H:i', strtotime($log['dr_waktu_keluar_pertamina'])) : 'N/A'; ?></div>
                             </div>
                         </div>
+                            <div class="col-12">
+                                <div class="data-item">
+                                    <div class="data-label">Lokasi Unloading</div>
+                                    <div class="data-value"><?php echo htmlspecialchars($log['dr_unload_location'] ?? 'N/A'); ?></div>
+                                    <?php if (!empty($log['dr_unload_location'])): ?>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" 
+                                                onclick="showLocationOnMap('<?php echo htmlspecialchars($log['dr_unload_location']); ?>')">
+                                            <i class="bi bi-geo-alt"></i> Lihat Peta
+                                        </button>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
                     </div>
 
                     <!-- Unloading Data -->
@@ -665,7 +678,7 @@ require_once 'includes/header.php';
                         <?php endif; ?>
                     <?php endif; ?>
 
-                    <!-- Depo Photos -->
+                    <!-- Depo Photos Segel-->
                     <h6 class="mt-4 mb-3">Foto Kondisi Segel</h6>
                     <div class="photo-grid">
                         <?php for($i = 1; $i <= 4; $i++): ?>
@@ -678,6 +691,36 @@ require_once 'includes/header.php';
                                 </div>
                             <?php endif; ?>
                         <?php endfor; ?>
+                    </div>
+                    
+                    <!-- Depo Photos Kondisi -->
+                    <h6 class="mt-4 mb-3">Foto Dokumen </h6>
+                    <div class="photo-grid">
+
+                        <div class="photo-item">
+                            <img src="<?php echo htmlspecialchars($log["pd_foto_sib"]); ?>" 
+                                    class="photo-preview" 
+                                    onclick="showImageModal(this.src)">
+                            <div class="photo-label">Foto SIB</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="<?php echo htmlspecialchars($log["pd_foto_ftw"]); ?>" 
+                                    class="photo-preview" 
+                                    onclick="showImageModal(this.src)">
+                            <div class="photo-label">Foto FTW</div>
+                        </div>
+                        <div class="photo-item">
+                            <img src="<?php echo htmlspecialchars($log["pd_foto_p2h"]); ?>" 
+                                    class="photo-preview" 
+                                    onclick="showImageModal(this.src)">
+                            <div class="photo-label">Foto P2H</div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="data-item">
+                        <div class="data-label">Lanjut ke MSF</div>
+                        <div class="data-value"><?php echo $log['pd_goto_msf'] ? date('d/m/Y H:i', strtotime($log['pd_arrived_at'])) : 'N/A'; ?></div>
                     </div>
                 </div>
             </div>
@@ -750,7 +793,7 @@ require_once 'includes/header.php';
                         <?php if (!empty($log['fm_location'])): ?>
                             <div class="col-12">
                                 <div class="data-item">
-                                    <div class="data-label">Lokasi</div>
+                                    <div class="data-label">Lokasi Unload</div>
                                     <div class="data-value"><?php echo htmlspecialchars($log['fm_location']); ?></div>
                                     <button type="button" class="btn btn-outline-primary btn-sm mt-2" 
                                             onclick="showLocationOnMap('<?php echo htmlspecialchars($log['fm_location']); ?>')">
@@ -776,28 +819,13 @@ require_once 'includes/header.php';
                         <?php endfor; ?>
                     </div>
 
-                    <!-- Foto Segel Akhir -->
-                    <h6 class="mt-4 mb-3">Foto Segel Akhir</h6>
-                    <div class="photo-grid">
-                        <?php for($i = 1; $i <= 4; $i++): ?>
-                            <?php if (!empty($log["fm_photo_akhir_$i"])): ?>
-                                <div class="photo-item">
-                                    <img src="<?php echo htmlspecialchars($log["fm_photo_akhir_$i"]); ?>" 
-                                         class="photo-preview" 
-                                         onclick="showImageModal(this.src)">
-                                    <div class="photo-label">Segel Akhir <?php echo $i; ?></div>
-                                </div>
-                            <?php endif; ?>
-                        <?php endfor; ?>
-                    </div>
-
                     <!-- Foto Tanki Kosong -->
                     <h6 class="mt-4 mb-3">Foto Tanki Kosong</h6>
                     <div class="photo-grid">
                         <?php for($i = 1; $i <= 4; $i++): ?>
-                            <?php if (!empty($log["fm_photo_tanki_kosong_$i"])): ?>
+                            <?php if (!empty($log["fm_photo_akhir$i"])): ?>
                                 <div class="photo-item">
-                                    <img src="<?php echo htmlspecialchars($log["fm_photo_tanki_kosong_$i"]); ?>" 
+                                    <img src="<?php echo htmlspecialchars($log["fm_photo_akhir$i"]); ?>" 
                                          class="photo-preview" 
                                          onclick="showImageModal(this.src)">
                                     <div class="photo-label">Tanki Kosong <?php echo $i; ?></div>

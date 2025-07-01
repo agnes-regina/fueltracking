@@ -53,8 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$error && !$isCompleted) {
     $photoFields = [
         'fm_segel_photo_awal_1', 'fm_segel_photo_awal_2', 'fm_segel_photo_awal_3', 'fm_segel_photo_awal_4',
         'fm_photo_akhir_1', 'fm_photo_akhir_2', 'fm_photo_akhir_3', 'fm_photo_akhir_4',
-        'fm_photo_kejernihan',
-        'fm_photo_tanki_kosong_1', 'fm_photo_tanki_kosong_2', 'fm_photo_tanki_kosong_3', 'fm_photo_tanki_kosong_4'
+        'fm_photo_kejernihan'
     ];
     $uploadedFiles = [];
     
@@ -631,7 +630,7 @@ require_once '../includes/header.php';
             </div>
 
             <!-- Foto Segel Akhir -->
-            <div class="photo-upload-section">
+            <!-- <div class="photo-upload-section">
                 <h3 class="section-title">
                     <i class="bi bi-camera me-2"></i>Foto Segel Akhir
                 </h3>
@@ -659,7 +658,7 @@ require_once '../includes/header.php';
                         </div>
                     <?php endfor; ?>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Foto Tanki Kosong -->
             <div class="photo-upload-section">
@@ -679,10 +678,10 @@ require_once '../includes/header.php';
                                     <i class="bi bi-camera me-2"></i>Foto Tanki Kosong <?php echo $i; ?>
                                 </label>
                                 <input type="file" class="form-control" 
-                                       id="fm_photo_tanki_kosong_<?php echo $i; ?>" name="fm_photo_tanki_kosong_<?php echo $i; ?>" 
+                                       id="fm_photo_akhir_<?php echo $i; ?>" name="fm_photo_akhir_<?php echo $i; ?>" 
                                        accept="image/*" onchange="previewImage(this, 'preview_tanki_kosong_<?php echo $i; ?>')">
                                 <button type="button" class="btn camera-btn w-100 mt-2" 
-                                        onclick="openCameraModal('fm_photo_tanki_kosong_<?php echo $i; ?>', 'preview_tanki_kosong_<?php echo $i; ?>')">
+                                        onclick="openCameraModal('fm_photo_akhir_<?php echo $i; ?>', 'preview_tanki_kosong_<?php echo $i; ?>')">
                                     <i class="bi bi-camera me-2"></i>Buka Kamera
                                 </button>
                                 <img id="preview_tanki_kosong_<?php echo $i; ?>" class="photo-preview" style="display: none;">

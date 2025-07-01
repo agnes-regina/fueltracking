@@ -108,14 +108,14 @@ require_once '../includes/header.php'; ?>
                             <label for="pt_driver_id" class="form-label">
                                 <i class="bi bi-person"></i> Nama Driver *
                             </label>
-                            <select class="form-control" id="pt_driver_id" name="pt_driver_id" required>
+                            <select class="form-select" id="pt_driver_id" name="pt_driver_id" required>
                                 <option value="">-- Pilih Driver --</option>
-<?php foreach ($drivers as $driver): ?>
+                                <?php foreach ($drivers as $driver): ?>
                                     <option value="<?= $driver['id'] ?>"
                                         <?= (($_POST['pt_driver_id'] ?? '') == $driver['id']) ? 'selected' : '' ?>>
                                         <?= $driver['id'] . ' - ' . htmlspecialchars($driver['full_name']) ?>
                                     </option>
-<?php endforeach; ?>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
