@@ -457,6 +457,92 @@ function previewImage(input, previewId) {
     }
 }
 
+// Compress image before upload (max 300kb)
+function compressAndUpload(input, previewId) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const maxKB = 300;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            const maxDim = 1280;
+            if (width > maxDim || height > maxDim) {
+                if (width > height) {
+                    height *= maxDim / width;
+                    width = maxDim;
+                } else {
+                    width *= maxDim / height;
+                    height = maxDim;
+                }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            let quality = 0.85;
+            let dataUrl = canvas.toDataURL('image/jpeg', quality);
+
+            // Reduce quality until under 300kb
+            while (dataUrl.length / 1024 > maxKB && quality > 0.4) {
+                quality -= 0.05;
+                dataUrl = canvas.toDataURL('image/jpeg', quality);
+            }
+
+            // Set preview
+            if (previewId) {
+                const preview = document.getElementById(previewId);
+                preview.src = dataUrl;
+                preview.style.display = 'block';
+            }
+
+            // Convert dataUrl to Blob and replace file in input
+            fetch(dataUrl)
+                .then(res => res.blob())
+                .then(blob => {
+                    const compressedFile = new File([blob], file.name, {type: 'image/jpeg'});
+                    const dt = new DataTransfer();
+                    dt.items.add(compressedFile);
+                    input.files = dt.files;
+                });
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+// Set compress for all photo input fields
+document.addEventListener('DOMContentLoaded', function() {
+    // Foto kondisi segel
+    for (let i = 1; i <= 4; i++) {
+        const input = document.getElementById('pd_foto_kondisi_' + i);
+        if (input) {
+            input.onchange = function() {
+                compressAndUpload(this, 'preview_kondisi_' + i);
+            };
+        }
+    }
+    // Dokumen wajib
+    const docInputs = [
+        {id: 'pd_foto_sib', preview: 'preview_sib'},
+        {id: 'pd_foto_ftw', preview: 'preview_ftw'},
+        {id: 'pd_foto_p2h', preview: 'preview_p2h'}
+    ];
+    docInputs.forEach(function(item) {
+        const el = document.getElementById(item.id);
+        if (el) {
+            el.onchange = function() {
+                compressAndUpload(this, item.preview);
+            };
+        }
+    });
+});
+
 // Form validation
 document.getElementById('depoForm')?.addEventListener('submit', function(e) {
     const btn = document.getElementById('submitBtn');
