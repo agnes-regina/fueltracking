@@ -83,6 +83,41 @@ try {
     $error = "Error fetching data: " . $e->getMessage();
 }
 
+// Handle delete action (admin only)
+if (hasRole('admin') && isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+    $deleteId = intval($_GET['delete']);
+    // Get file paths to delete
+    $stmt = $pdo->prepare("SELECT * FROM fuel_logs WHERE id = ?");
+    $stmt->execute([$deleteId]);
+    $logToDelete = $stmt->fetch();
+    if ($logToDelete) {
+        // List all file fields that need to be deleted
+        $fileFields = [
+            // Tambahkan semua kolom file di sini
+            'pt_segel_photo_1','pt_segel_photo_2','pt_segel_photo_3','pt_segel_photo_4',
+            'pl_segel_photo_1','pl_segel_photo_2','pl_segel_photo_3','pl_segel_photo_4',
+            'pl_doc_sampel','pl_doc_do','pl_doc_suratjalan',
+            'dr_doc_sampel','dr_doc_do','dr_doc_suratjalan',
+            'pd_foto_kondisi_1','pd_foto_kondisi_2','pd_foto_kondisi_3','pd_foto_kondisi_4',
+            'pd_foto_sib','pd_foto_ftw','pd_foto_p2h',
+            'fm_segel_photo_awal_1','fm_segel_photo_awal_2','fm_segel_photo_awal_3','fm_segel_photo_awal_4',
+            'fm_photo_akhir_1','fm_photo_akhir_2','fm_photo_akhir_3','fm_photo_akhir_4',
+            'fm_photo_kejernihan'
+        ];
+        foreach ($fileFields as $field) {
+            if (!empty($logToDelete[$field]) && file_exists($logToDelete[$field])) {
+                @unlink($logToDelete[$field]);
+            }
+        }
+        // Delete log
+        $delStmt = $pdo->prepare("DELETE FROM fuel_logs WHERE id = ?");
+        $delStmt->execute([$deleteId]);
+        // Redirect to avoid resubmission
+        header("Location: logs.php?deleted=1");
+        exit;
+    }
+}
+
 require_once 'includes/header.php';
 ?>
 
@@ -381,6 +416,10 @@ require_once 'includes/header.php';
                                                            class="btn btn-outline-warning btn-action" data-bs-toggle="tooltip" title="Edit">
                                                             <i class="bi bi-pencil"></i>
                                                         </a>
+                                                        <button type="button" class="btn btn-outline-danger btn-action btn-delete-log"
+                                                            data-id="<?php echo $log['id']; ?>" data-bs-toggle="tooltip" title="Hapus">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
                                                     <?php endif; ?>
                                                 </div>
                                             </td>
@@ -427,6 +466,35 @@ require_once 'includes/header.php';
     </div>
 </div>
 
+<div class="modal fade" id="deleteLogModal" tabindex="-1" aria-labelledby="deleteLogModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 1.5rem;">
+      <div class="modal-header bg-danger text-white" style="border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;">
+        <h5 class="modal-title" id="deleteLogModalLabel">
+          <i class="bi bi-exclamation-triangle me-2"></i>Konfirmasi Hapus Data
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p class="fs-5 mb-3">Yakin ingin menghapus log ini beserta semua file terkait?</p>
+        <div id="delete-log-id-info" class="mb-2 text-danger fw-bold"></div>
+        <div class="alert alert-warning" style="border-radius: 1rem;">
+          <i class="bi bi-info-circle me-2"></i>
+          Data yang sudah dihapus <b>tidak dapat dikembalikan</b>.
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle me-1"></i>Batal
+        </button>
+        <button type="button" class="btn btn-danger px-4" id="confirmDeleteLogBtn">
+          <i class="bi bi-trash me-1"></i>Hapus
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // Auto filter with 2 second delay
 let filterTimeout;
@@ -451,6 +519,24 @@ document.addEventListener('DOMContentLoaded', function() {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
+let deleteLogId = null;
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-delete-log').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            deleteLogId = this.getAttribute('data-id');
+            document.getElementById('delete-log-id-info').innerHTML = 'ID Log: <span class="badge bg-danger">#' + deleteLogId + '</span>';
+            var modal = new bootstrap.Modal(document.getElementById('deleteLogModal'));
+            modal.show();
+        });
+    });
+
+    document.getElementById('confirmDeleteLogBtn').addEventListener('click', function() {
+        if (deleteLogId) {
+            window.location = 'logs.php?delete=' + deleteLogId;
+        }
     });
 });
 </script>
