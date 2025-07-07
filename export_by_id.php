@@ -8,6 +8,19 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
+// Ambil ID dari GET atau array ids[] dari POST
+$ids = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['ids']) && is_array($_POST['ids'])) {
+    $ids = array_map('intval', $_POST['ids']);
+} elseif (isset($_GET['id'])) {
+    $ids = [intval($_GET['id'])];
+}
+$ids = array_filter($ids); // buang 0/false
+
+if (empty($ids)) {
+    die('ID tidak valid.');
+}
+
 // 1. Mapping translate header
 $translate = [
     "id" => "id",
@@ -89,11 +102,17 @@ foreach ($stmtUser->fetchAll() as $u) {
 
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
-$sheet->setTitle('Fuel Logs');
+$sheet->setTitle('Fuel Log Detail');
 
-// Ambil data dari DB
-$stmt = $pdo->query("SELECT * FROM fuel_logs ORDER BY created_at DESC");
+// Ambil data dari DB untuk id tertentu (bisa 1 atau banyak)
+$placeholders = implode(',', array_fill(0, count($ids), '?'));
+$stmt = $pdo->prepare("SELECT * FROM fuel_logs WHERE id IN ($placeholders)");
+$stmt->execute($ids);
 $data = $stmt->fetchAll();
+
+if (!$data) {
+    die('Data tidak ditemukan.');
+}
 
 // Cek field yang tidak null dari semua row
 $nonEmptyFields = [];
@@ -194,8 +213,9 @@ foreach (range(1, count($headers)) as $col) {
 }
 
 // Output ke browser
+$filename = 'fuel_log_detail_' . (count($ids) === 1 ? $ids[0] : 'multi') . '_' . date('Y-m-d_H-i-s') . '.xlsx';
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="fuel_logs_export_' . date('Y-m-d_H-i-s') . '.xlsx"');
+header('Content-Disposition: attachment;filename="' . $filename . '"');
 header('Cache-Control: max-age=0');
 
 $writer = new Xlsx($spreadsheet);

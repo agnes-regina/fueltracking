@@ -419,9 +419,9 @@ require_once 'includes/header.php';
             </a>
         <?php endif; ?>
         <?php if (hasRole('admin') || hasRole('gl_pama')): ?>
-            <button onclick="window.print()" class="btn btn-info btn-modern">
-                <i class="bi bi-printer me-2"></i>Print
-            </button>
+            <a href="export_by_id.php?id=<?php echo $id; ?>" class="btn btn-success btn-modern">
+                <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
+            </a>
         <?php endif; ?>
     </div>
 

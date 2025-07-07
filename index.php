@@ -619,7 +619,7 @@ require_once 'includes/header.php';
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="action-card">
-                        <a href="<?= $base_url ?>export_all.php" class="action-btn-modern w-100" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <a href="<?= $base_url ?>export_select.php" class="action-btn-modern w-100" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
                             <i class="bi bi-file-earmark-excel"></i>
                             <span>Export Excel</span>
                         </a>
